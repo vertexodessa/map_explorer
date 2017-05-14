@@ -9,7 +9,7 @@ public:
     virtual ~IPathView() {}
     virtual void Draw() =0;
 protected:
-    explicit IPathView(std::shared_ptr<Path> path): m_path (path);
+    explicit IPathView(std::shared_ptr<Path> path): m_path (path) {};
     std::shared_ptr<Path> m_path;
 private:
 };

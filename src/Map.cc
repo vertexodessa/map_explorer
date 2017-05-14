@@ -97,6 +97,9 @@ int Map::ReadFromFile(std::string filename) {
         return -1;
     }
 
+    m_width = width;
+    m_height = height;
+
     return cell_count;
 }
 
