@@ -3,9 +3,9 @@
 
 #include <vector>
 
-class Cell;
-
 namespace map_solver {
+
+class Cell;
 
 class Path {
 public:

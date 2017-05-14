@@ -1,8 +1,10 @@
 
-#include "Renderer.h"
 #include "ConsoleMapView.h"
+#include "ConsolePathView.h"
+#include "DijkstraPathFinder.h"
 #include "Logging.h"
 #include "Map.h"
+#include "Renderer.h"
 
 #include <memory>
 #include <utility>
@@ -19,16 +21,22 @@ int main(int, char*[])
     shared_ptr<Map> map = make_shared<Map>();
     if (-1 == map->ReadFromFile("crafted_map.map")) {
         LOG_ERROR << "Can't read map; exiting";
-        // exit(1);
+        exit(1);
     };
 
     LOG_TRACE << "Read the map. Creating map view.";
 
     unique_ptr<IMapView> view = ConsoleMapViewFactory::Create(map);
 
-    shared_ptr<IMapView> viewPtr = move(view);
+    shared_ptr<IMapView> viewPtr { move(view) };
     Renderer p;
     p.SetMapView(viewPtr);
+
+    DijkstraPathFinder pf(map);
+    shared_ptr<Path> path { pf.Solve() };
+    shared_ptr<IPathView> pathView = ConsolePathViewFactory::Create(path);
+
+    p.SetPathView(pathView);
     p.Draw();
 
     return 0;

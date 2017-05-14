@@ -12,7 +12,9 @@ DijkstraPathFinder::DijkstraPathFinder(shared_ptr<Map>) {
     
 }
 /*virtual*/ unique_ptr<Path> DijkstraPathFinder::Solve() {
+    unique_ptr<Path> ret;
     
+    return ret;
 }
 
 } //namespace map_solver

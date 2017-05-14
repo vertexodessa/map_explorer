@@ -14,6 +14,7 @@ namespace map_solver {
 namespace {
 
 wchar_t CellRepresentation(char cellType) {
+    // currently just a cell type is returned.
     return cellType;
 };
 
