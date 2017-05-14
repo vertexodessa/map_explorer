@@ -4,10 +4,22 @@
 ;; MODE is a symbol like `c-mode', or `nil' for all modes.
 ((c-mode
   (indent-tabs-mode . nil)
-  (c-basic-offset . 4))
+  (c-basic-offset . 4)
+  (eval . (progn
+            (c-set-offset 'innamespace 0)
+            (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+          )
+        )
+  
+)
  (c++-mode
   (indent-tabs-mode . nil)
-  (c-basic-offset . 4))
+  (c-basic-offset . 4)
+  (eval . (progn
+            (c-set-offset 'innamespace 0) 
+          )
+      )
+  )
  (java-mode
   (indent-tabs-mode . nil)
   (c-basic-offset . 4))
