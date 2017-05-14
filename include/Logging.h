@@ -2,6 +2,15 @@
 #define LOGGING_H
 
 #include <boost/log/trivial.hpp>
+#include <boost/log/utility/setup/file.hpp>
+
+namespace logging = boost::log;
+
+
+inline void InitLogging() {
+    logging::add_file_log("map_solver.log");
+}
+
 
 #define LOG_TRACE BOOST_LOG_TRIVIAL(trace)
 #define LOG_DEBUG BOOST_LOG_TRIVIAL(debug)

@@ -18,7 +18,7 @@ public:
     //IMapView
     virtual void Draw() final;
 
-    static void Initialize(WINDOW* win);
+    static void Initialize();
     static void DeInitialize();
 
 protected:

@@ -14,10 +14,16 @@ using namespace std;
 
 int main(int, char*[])
 {
+    InitLogging();
     LOG_TRACE << "Starting";
 
-    WINDOW* win = initscr();
-    ConsoleMapView::Initialize(win);
+    initscr();
+    def_prog_mode();
+    noecho();
+    cbreak();
+    curs_set(FALSE);
+
+    ConsoleMapView::Initialize();
 
     LOG_TRACE << "Reading the map";
 
@@ -44,8 +50,10 @@ int main(int, char*[])
     p.Draw();
 
     getch();
-    
 
     ConsoleMapView::DeInitialize();
+    endwin();
+    reset_prog_mode();
+    refresh();
     return 0;
 }

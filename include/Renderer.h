@@ -18,7 +18,6 @@ public:
     void SetPathView(std::shared_ptr<IPathView> pathView);
     void Draw();
 private:
-    void DrawBoundary();
 
     std::shared_ptr<IMapView> m_mapView;
     std::shared_ptr<IPathView> m_pathView;

@@ -13,15 +13,8 @@ void Renderer::SetPathView(std::shared_ptr<IPathView> pathView) {
 }
 
 void Renderer::Draw() {
-    DrawBoundary();
     m_mapView->Draw();
-    
     m_pathView->Draw();
-}
-
-// private:
-void Renderer::DrawBoundary() {
-    
 }
 
 }
