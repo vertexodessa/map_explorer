@@ -16,11 +16,15 @@ int main(int, char*[])
 {
     LOG_TRACE << "Starting";
 
+    WINDOW* win = initscr();
+    ConsoleMapView::Initialize(win);
+
     LOG_TRACE << "Reading the map";
 
     shared_ptr<Map> map = make_shared<Map>();
     if (-1 == map->ReadFromFile("crafted_map.map")) {
         LOG_ERROR << "Can't read map; exiting";
+        ConsoleMapView::DeInitialize();
         exit(1);
     };
 
@@ -39,5 +43,9 @@ int main(int, char*[])
     p.SetPathView(pathView);
     p.Draw();
 
+    getch();
+    
+
+    ConsoleMapView::DeInitialize();
     return 0;
 }

@@ -4,6 +4,11 @@
 #include "IMapView.h"
 
 #include <utility>
+#include <mutex>
+
+extern "C" {
+#include <curses.h>
+}
 
 namespace map_solver {
 
@@ -13,8 +18,11 @@ public:
     //IMapView
     virtual void Draw() final;
 
+    static void Initialize(WINDOW* win);
+    static void DeInitialize();
+
 protected:
-    explicit ConsoleMapView(std::shared_ptr<Map> map) : IMapView(map) {};
+    explicit ConsoleMapView(std::shared_ptr<Map> map) : IMapView(map) { };
 private:
     friend class ConsoleMapViewFactory;
 };
