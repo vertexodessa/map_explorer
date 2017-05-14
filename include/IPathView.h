@@ -10,7 +10,7 @@ class Path;
 class IPathView {
 public:
     virtual ~IPathView() {}
-    virtual void Draw() =0;
+    virtual void Draw() const =0;
 protected:
     friend class ConsolePathViewFactory;
     explicit IPathView(std::shared_ptr<Path> path): m_path (path) {};

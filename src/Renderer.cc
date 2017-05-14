@@ -12,7 +12,7 @@ void Renderer::SetPathView(std::shared_ptr<IPathView> pathView) {
     m_pathView = pathView;
 }
 
-void Renderer::Draw() {
+void Renderer::Draw() const {
     m_mapView->Draw();
     m_pathView->Draw();
 }

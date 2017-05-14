@@ -14,12 +14,14 @@ public:
     Map();
     ~Map(){}
     int ReadFromFile(std::string filename);
-    int32_t width() {return m_height;};
-    int32_t height() {return m_width;};
+    int32_t width() const {return m_height;};
+    int32_t height() const {return m_width;};
 
+    const std::vector<Cell>& Cells() const {return m_cells;}
 private:
     friend class ConsoleMapView;
-    friend class DijkstraPathFinder;
+
+    // TODO: is boost::matrix a better for m_cells?
     std::vector<Cell> m_cells;
     int32_t m_width {-1};
     int32_t m_height {-1};

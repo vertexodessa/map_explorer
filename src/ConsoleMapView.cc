@@ -23,10 +23,22 @@ wchar_t CellRepresentation(char cellType) {
 
 }
 
-void ConsoleMapView::Initialize() { }
-void ConsoleMapView::DeInitialize() { }
+void ConsoleMapView::Initialize() {
+    def_prog_mode();
+    initscr();
+    noecho();
+    cbreak();
+    curs_set(FALSE);
+}
+void ConsoleMapView::DeInitialize() {
+    endwin();
+    erase();
+    reset_prog_mode();
+    curs_set(TRUE);
+    refresh();
+}
 
-void ConsoleMapView::Draw() {
+void ConsoleMapView::Draw() const {
     int initX, initY;
     getyx(stdscr, initY, initX);
 
@@ -75,6 +87,7 @@ void ConsoleMapView::Draw() {
 
     // rewind to the map start
     wmove(stdscr, initY, initX);
+    getch();
 }
 
 }

@@ -10,7 +10,7 @@ public:
 
     //IPathView
     virtual ~ConsolePathView() final {};
-    virtual void Draw() final;
+    virtual void Draw() const final;
 protected:
     explicit ConsolePathView(std::shared_ptr<Path> path) : IPathView(path) {};
 private:

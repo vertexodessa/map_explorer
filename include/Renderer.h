@@ -14,7 +14,7 @@ class Renderer {
 public:
     void SetMapView(std::shared_ptr<IMapView> mapView);
     void SetPathView(std::shared_ptr<IPathView> pathView);
-    void Draw();
+    void Draw() const;
 private:
 
     std::shared_ptr<IMapView> m_mapView;

@@ -40,7 +40,7 @@ inline vector<Cell> ReadCellsFromFile(string filename) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
     vector<Cell> ret;
 
-    int x,y;
+    int x, y;
     ifstream f;
     f.open(filename);
 
@@ -50,12 +50,15 @@ inline vector<Cell> ReadCellsFromFile(string filename) {
     char c;
     ret.reserve(x*y);
 
+    int i=0;
     while (true) {
         f.read(&c, 1);
         if (f.eof())
             break;
         LOG_TRACE << "read " << (int)c << " as cell number";
-        ret.emplace_back(c);
+        LOG_TRACE << "emplacing cell " << (int)c << " to map position x: " << i%x << ", y: " << i/y ;
+        ret.emplace_back(c, i%x, i/x);
+        ++i;
     }
 
     return ret;

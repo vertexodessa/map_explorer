@@ -10,7 +10,7 @@ class ConsoleMapView : public IMapView {
 public:
     virtual ~ConsoleMapView() final {};
     //IMapView
-    virtual void Draw() final;
+    virtual void Draw() const final;
 
     static void Initialize();
     static void DeInitialize();

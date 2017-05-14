@@ -19,12 +19,6 @@ int main(int, char*[])
     InitLogging();
     LOG_TRACE << "Starting";
 
-    initscr();
-    def_prog_mode();
-    noecho();
-    cbreak();
-    curs_set(FALSE);
-
     ConsoleMapView::Initialize();
 
     LOG_TRACE << "Reading the map";
@@ -54,10 +48,6 @@ int main(int, char*[])
     getch();
 
     ConsoleMapView::DeInitialize();
-    endwin();
-    erase();
-    reset_prog_mode();
-    refresh();
 
     return 0;
 }
