@@ -1,5 +1,5 @@
 
-#include "Compositor.h"
+#include "Renderer.h"
 #include "ConsoleMapView.h"
 #include "Logging.h"
 #include "Map.h"
@@ -24,15 +24,12 @@ int main(int, char*[])
 
     LOG_TRACE << "Read the map. Creating map view.";
 
-    // ConsoleMapViewConfiguration config;
-    // config.set
     unique_ptr<IMapView> view = ConsoleMapViewFactory::Create(map);
 
     shared_ptr<IMapView> viewPtr = move(view);
-    
-    Compositor p;
-    // p.SetMapView(map);
-    // .show();
-    
+    Renderer p;
+    p.SetMapView(viewPtr);
+    p.Draw();
+
     return 0;
 }

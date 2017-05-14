@@ -11,7 +11,7 @@ class ConsoleMapView : public IMapView {
 public:
     virtual ~ConsoleMapView() final {};
     //IMapView
-    virtual void Show() final {};
+    virtual void Draw() final {};
 
 protected:
     explicit ConsoleMapView(std::shared_ptr<Map> map) : IMapView(map) {};

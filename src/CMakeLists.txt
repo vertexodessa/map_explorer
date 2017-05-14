@@ -33,7 +33,6 @@ message("PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 
 set(SRC_FILES
   Cell.cc
-  Compositor.cc
   ConsoleCellView.cc
   ConsoleMapView.cc
   ConsoleMapViewConfiguration.cc
@@ -41,6 +40,7 @@ set(SRC_FILES
   DijkstraPathFinder.cc
   Map.cc
   Path.cc
+  Renderer.cc
   )
 
 add_definitions(-DBOOST_LOG_DYN_LINK)

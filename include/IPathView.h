@@ -5,9 +5,13 @@
 
 namespace map_solver {
 class IPathView {
-    virtual explicit IPathView(std::shared_ptr<Path>) =0;
+public:
     virtual ~IPathView() {}
-    virtual void Show() =0;
+    virtual void Draw() =0;
+protected:
+    explicit IPathView(std::shared_ptr<Path> path): m_path (path);
+    std::shared_ptr<Path> m_path;
+private:
 };
 }
 
