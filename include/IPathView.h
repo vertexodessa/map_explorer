@@ -1,10 +1,7 @@
 #ifndef IPATHVIEW_H
 #define IPATHVIEW_H
 
-#include "Utils.h"
-
 #include <memory>
-#include <utility>
 
 namespace map_solver {
 

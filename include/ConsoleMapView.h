@@ -3,12 +3,6 @@
 
 #include "IMapView.h"
 
-#include <utility>
-#include <mutex>
-
-extern "C" {
-#include <curses.h>
-}
 
 namespace map_solver {
 

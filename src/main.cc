@@ -1,13 +1,15 @@
-
 #include "ConsoleMapView.h"
 #include "ConsolePathView.h"
 #include "DijkstraPathFinder.h"
 #include "Logging.h"
 #include "Map.h"
+#include "Path.h"
 #include "Renderer.h"
 
 #include <memory>
 #include <utility>
+
+#include <cursesw.h>
 
 using namespace map_solver;
 using namespace std;

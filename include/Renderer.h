@@ -2,10 +2,8 @@
 #define COMPOSITOR_H
 
 #include "Map.h"
-#include "Path.h"
 
 #include <memory>
-
 
 namespace map_solver {
 

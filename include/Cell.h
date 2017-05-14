@@ -1,8 +1,6 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include "ConsoleCellView.h"
-
 namespace map_solver {
 
 class Cell {
