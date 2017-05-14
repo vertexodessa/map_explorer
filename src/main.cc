@@ -44,8 +44,8 @@ int main(int, char*[])
     Renderer p;
     p.SetMapView(viewPtr);
 
-    DijkstraPathFinder pf(map);
-    shared_ptr<Path> path { pf.Solve() };
+    unique_ptr<IPathFinder> pf = DijkstraPathFinderFactory::Create(map);
+    shared_ptr<Path> path { pf->Solve() };
     shared_ptr<IPathView> pathView = ConsolePathViewFactory::Create(path);
 
     p.SetPathView(pathView);
@@ -55,7 +55,9 @@ int main(int, char*[])
 
     ConsoleMapView::DeInitialize();
     endwin();
+    erase();
     reset_prog_mode();
     refresh();
+
     return 0;
 }

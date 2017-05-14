@@ -19,6 +19,7 @@ public:
 
 private:
     friend class ConsoleMapView;
+    friend class DijkstraPathFinder;
     std::vector<Cell> m_cells;
     int32_t m_width {-1};
     int32_t m_height {-1};
