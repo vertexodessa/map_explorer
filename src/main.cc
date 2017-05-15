@@ -1,10 +1,11 @@
-#include "ConsoleMapView.h"
-#include "ConsolePathView.h"
-#include "DijkstraPathFinder.h"
 #include "Logging.h"
 #include "Map.h"
+#include "MapViewFactory.h"
 #include "Path.h"
+#include "PathFinderFactory.h"
+#include "PathViewFactory.h"
 #include "Renderer.h"
+#include "ViewBackendFactory.h"
 
 #include <memory>
 #include <utility>
@@ -19,35 +20,36 @@ int main(int, char*[])
     InitLogging();
     LOG_TRACE << "Starting";
 
-    ConsoleMapView::Initialize();
+    unique_ptr<IViewBackend> backend { ViewBackendFactory::Create() };
+    backend->Initialize();
 
     LOG_TRACE << "Reading the map";
 
     shared_ptr<Map> map = make_shared<Map>();
     if (-1 == map->ReadFromFile("crafted_map.map")) {
         LOG_ERROR << "Can't read map; exiting";
-        ConsoleMapView::DeInitialize();
+        backend->DeInitialize();
         exit(1);
     };
 
     LOG_TRACE << "Read the map. Creating map view.";
 
-    unique_ptr<IMapView> view = ConsoleMapViewFactory::Create(map);
+    unique_ptr<IMapView> view = MapViewFactory::Create(map);
 
     shared_ptr<IMapView> viewPtr { move(view) };
     Renderer p;
     p.SetMapView(viewPtr);
 
-    unique_ptr<IPathFinder> pf = DijkstraPathFinderFactory::Create(map);
+    unique_ptr<IPathFinder> pf = PathFinderFactory::Create(map);
     shared_ptr<Path> path { pf->Solve() };
-    shared_ptr<IPathView> pathView = ConsolePathViewFactory::Create(path);
+    shared_ptr<IPathView> pathView = PathViewFactory::Create(path);
 
     p.SetPathView(pathView);
     p.Draw();
 
     getch();
 
-    ConsoleMapView::DeInitialize();
+    backend->DeInitialize();
 
     return 0;
 }

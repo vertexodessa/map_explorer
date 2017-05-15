@@ -19,16 +19,10 @@ public:
     virtual std::unique_ptr<Path> Solve() final;
 protected:
     explicit DijkstraPathFinder(std::shared_ptr<Map> map);
-    friend class DijkstraPathFinderFactory;
+    friend class PathFinderFactory;
 private:
 };
 
-class DijkstraPathFinderFactory {
-public:
-    static std::unique_ptr<IPathFinder> Create(std::shared_ptr<Map> map) {
-        return std::unique_ptr<IPathFinder>(new DijkstraPathFinder(map));
-    };
-};
 
 } //namespace map_solver
 

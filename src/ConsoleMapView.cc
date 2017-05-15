@@ -23,21 +23,6 @@ wchar_t CellRepresentation(char cellType) {
 
 }
 
-void ConsoleMapView::Initialize() {
-    def_prog_mode();
-    initscr();
-    noecho();
-    cbreak();
-    curs_set(FALSE);
-}
-void ConsoleMapView::DeInitialize() {
-    erase();
-    reset_prog_mode();
-    curs_set(TRUE);
-    refresh();
-    endwin();
-}
-
 void ConsoleMapView::Draw() const {
     int initX, initY;
     getyx(stdscr, initY, initX);

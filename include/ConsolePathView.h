@@ -14,17 +14,8 @@ public:
 protected:
     explicit ConsolePathView(std::shared_ptr<Path> path) : IPathView(path) {};
 private:
-    friend class ConsolePathViewFactory;
+    friend class PathViewFactory;
 };
-
-
-class ConsolePathViewFactory {
-public:
-    static std::unique_ptr<IPathView> Create(std::shared_ptr<Path> path) {
-        return std::unique_ptr<IPathView>(new ConsolePathView(path));
-    };
-};
-
 
 }
 
