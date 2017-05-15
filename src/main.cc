@@ -36,8 +36,8 @@ int main(int, char*[])
     LOG_TRACE << "Read the map. Creating map view.";
 
     unique_ptr<IMapView> view = MapViewFactory::Create(map);
-
     shared_ptr<IMapView> viewPtr { move(view) };
+
     Renderer p;
     p.SetMapView(viewPtr);
 
