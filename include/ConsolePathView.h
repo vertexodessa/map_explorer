@@ -1,7 +1,7 @@
 #ifndef CONSOLEPATHVIEW_H
 #define CONSOLEPATHVIEW_H
 
-#include "IPathView.h"
+#include "interfaces/IPathView.h"
 
 namespace map_solver {
 

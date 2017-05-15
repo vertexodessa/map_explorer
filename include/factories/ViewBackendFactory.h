@@ -2,7 +2,7 @@
 #define VIEWBACKENDFACTORY_H
 
 #include "ConsoleViewBackend.h"
-#include "IViewBackend.h"
+#include "interfaces/IViewBackend.h"
 
 namespace map_solver {
 

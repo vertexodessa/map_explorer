@@ -2,7 +2,7 @@
 #define MAP_H
 
 #include "Cell.h"
-#include "IMapView.h"
+#include "interfaces/IMapView.h"
 
 #include <string>
 #include <vector>

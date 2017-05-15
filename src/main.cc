@@ -1,11 +1,12 @@
 #include "Logging.h"
 #include "Map.h"
-#include "MapViewFactory.h"
 #include "Path.h"
-#include "PathFinderFactory.h"
-#include "PathViewFactory.h"
 #include "Renderer.h"
-#include "ViewBackendFactory.h"
+
+#include "factories/MapViewFactory.h"
+#include "factories/PathFinderFactory.h"
+#include "factories/PathViewFactory.h"
+#include "factories/ViewBackendFactory.h"
 
 #include <memory>
 #include <utility>

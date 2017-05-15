@@ -1,7 +1,7 @@
 #ifndef CONSOLEMAPVIEW_H
 #define CONSOLEMAPVIEW_H
 
-#include "IMapView.h"
+#include "interfaces/IMapView.h"
 
 
 namespace map_solver {

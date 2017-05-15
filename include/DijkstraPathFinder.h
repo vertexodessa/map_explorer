@@ -1,7 +1,7 @@
 #ifndef DIJKSTRA_PATH_FINDER_H
 #define DIJKSTRA_PATH_FINDER_H
 
-#include "IPathFinder.h"
+#include "interfaces/IPathFinder.h"
 
 #include <memory>
 

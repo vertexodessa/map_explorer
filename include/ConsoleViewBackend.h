@@ -1,7 +1,7 @@
 #ifndef CONSOLEVIEWBACKEND_H
 #define CONSOLEVIEWBACKEND_H
 
-#include "IViewBackend.h"
+#include "interfaces/IViewBackend.h"
 
 #include <memory>
 #include <utility>

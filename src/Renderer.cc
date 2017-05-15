@@ -1,6 +1,6 @@
 #include "Renderer.h"
-#include "IMapView.h"
-#include "IPathView.h"
+#include "interfaces/IMapView.h"
+#include "interfaces/IPathView.h"
 
 namespace map_solver {
 
