@@ -31,11 +31,11 @@ void ConsoleMapView::Initialize() {
     curs_set(FALSE);
 }
 void ConsoleMapView::DeInitialize() {
-    endwin();
     erase();
     reset_prog_mode();
     curs_set(TRUE);
     refresh();
+    endwin();
 }
 
 void ConsoleMapView::Draw() const {
