@@ -18,7 +18,7 @@ using namespace std;
 
 int main(int, char*[])
 {
-    InitLogging();
+    Logging::InitLogging();
     LOG_TRACE << "Starting";
 
     unique_ptr<IViewBackend> backend { ViewBackendFactory::Create() };
