@@ -3,7 +3,7 @@
 #include "Logging.h"
 #include "Map.h"
 #include "Path.h"
-#include "Utils.h"
+#include "utils/Types.h"
 
 #include <list>
 #include <map>
@@ -20,8 +20,8 @@ DijkstraPathFinder::DijkstraPathFinder(shared_ptr<Map> map)
 
 unique_ptr<Path> DijkstraPathFinder::solve() {
 
-    size_t start_idx = m_map->start();
-    size_t finish_idx = m_map->finish();
+    int32_t start_idx = m_map->start();
+    int32_t finish_idx = m_map->finish();
 
     if (-1 == start_idx || -1 == finish_idx) {
         LOG_FATAL << "The map is not correct. Cannot find a start or finish cell.";

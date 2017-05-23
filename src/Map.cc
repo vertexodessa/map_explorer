@@ -2,7 +2,7 @@
 #include "Cell.h"
 #include "Logging.h"
 #include "Map.h"
-#include "Utils.h"
+#include "utils/Types.h"
 
 
 #include <boost/filesystem.hpp>

@@ -2,7 +2,7 @@
 #define PATH_H
 
 #include "Cell.h"
-#include "Utils.h"
+#include "utils/Types.h"
 
 #include <boost/numeric/ublas/matrix.hpp>
 

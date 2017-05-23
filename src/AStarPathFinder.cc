@@ -1,9 +1,10 @@
-#include "Constants.h"
 #include "AStarPathFinder.h"
+#include "Constants.h"
 #include "Logging.h"
 #include "Map.h"
 #include "Path.h"
-#include "Utils.h"
+#include "utils/Types.h"
+#include "utils/AdjacentCellIterator.h"
 
 #include <boost/graph/astar_search.hpp>
 #include <boost/graph/adjacency_list.hpp>
@@ -11,7 +12,7 @@
 using namespace boost;
 using namespace std;
 
-typedef uint32_t cost;
+typedef int32_t cost;
 
 template <class Graph, class CostType, class LocMap>
 class distance_heuristic : public astar_heuristic<Graph, CostType>
@@ -42,6 +43,7 @@ public:
     throwing_astar_visitor(Vertex goal) : m_goal(goal) {}
     template <class Graph>
     void examine_vertex(Vertex u, Graph& g) throw(found_goal) {
+        LOG_TRACE << "Examining vertex: " << u;
         if(u == m_goal)
             throw found_goal();
     }
@@ -67,7 +69,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
     // typedef mygraph_t::vertex_iterator vertex_iterator;
     // typedef std::pair<int, int> edge;
 
-    uint32_t start_idx, finish_idx;
+    int32_t start_idx, finish_idx;
     start_idx = m_map->start();
     finish_idx = m_map->finish();
 
@@ -88,30 +90,12 @@ unique_ptr<Path> AStarPathFinder::solve() {
         auto cell_weight = m_map->weight(current_cell);
         LOG_TRACE << "node " << current_cell << " weight: " << cell_weight;
 
-        // TODO: make this an iterator!
-        auto AdjacentIndexes = [](int i, int w, int h) {
-            vector<int> ids;
-            int x = i % w;
-            int y = i / w;
+        AdjacentCells<int32_t> adjacent_indexes(m_map->width(), m_map->height(), i);
 
-            if (x > 0)
-                ids.push_back(i - 1);
-            if (x < w-1)
-                ids.push_back(i + 1);
-            if (y > 0)
-                ids.push_back(i - w);
-            if (y < h-1)
-                ids.push_back(i + w);
-            for (auto& a : ids) {
-                LOG_TRACE << "Adjacent cells for " << i << " (" << x << ", " << y << ")" << " is: " << a;
-            }
-            return ids;
-        };
-
-        vector<int> adjacent_indexes = AdjacentIndexes(i, m_map->width(), m_map->height());
-        for_each(adjacent_indexes.begin(), adjacent_indexes.end(), [&](auto& adjacent_index) {
+        for_each(adjacent_indexes.begin(), adjacent_indexes.end(), [&](int adjacent_index) {
                 edge_descriptor e; bool inserted;
                 tie(e, inserted) = add_edge(current_cell, adjacent_index, g);
+                LOG_TRACE << "e, inserted: " << e << ", " << inserted;
                 weightmap[e] = cell_weight;
             });
     }
@@ -144,7 +128,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
         list<vertex>::iterator spi = shortest_path.begin();
         LOG_TRACE << start;
         for(++spi; spi != shortest_path.end(); ++spi)
-            LOG_TRACE  << *std::prev(spi)<< " -> " << *spi;
+            LOG_TRACE  << *std::prev(spi) << " -> " << *spi;
         LOG_TRACE << endl << "Total travel time: " << d[finish] << endl;
 
         auto ret = make_unique<Path>(m_map->width(), m_map->height());

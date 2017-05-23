@@ -3,7 +3,7 @@
 
 #include "Cell.h"
 #include "Constants.h"
-#include "Utils.h"
+#include "utils/Types.h"
 #include "interfaces/IMapView.h"
 
 #include <algorithm>
