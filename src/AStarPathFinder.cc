@@ -1,5 +1,4 @@
 #include "AStarPathFinder.h"
-#include "Constants.h"
 #include "Logging.h"
 #include "Map.h"
 #include "Path.h"
@@ -129,7 +128,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
         LOG_TRACE << start;
         for(++spi; spi != shortest_path.end(); ++spi)
             LOG_TRACE  << *std::prev(spi) << " -> " << *spi;
-        LOG_TRACE << endl << "Total travel time: " << d[finish] << endl;
+        LOG_TRACE << '\n' << "Total travel time: " << d[finish] << '\n';
 
         auto ret = make_unique<Path>(m_map->width(), m_map->height());
         for (auto&& i : shortest_path)
@@ -138,7 +137,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
     }
 
     LOG_WARN << "Didn't find a path from " << start << " to "
-             << finish << "!" << endl;
+             << finish << "!" << '\n';
 
     return nullptr;
 }

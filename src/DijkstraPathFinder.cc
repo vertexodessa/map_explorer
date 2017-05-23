@@ -1,8 +1,8 @@
-#include "Constants.h"
 #include "DijkstraPathFinder.h"
 #include "Logging.h"
 #include "Map.h"
 #include "Path.h"
+#include "utils/Constants.h"
 #include "utils/Types.h"
 
 #include <list>

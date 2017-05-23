@@ -11,7 +11,7 @@
 
 namespace Logging {
 
-inline void InitLogging() { }
+inline void initLogging() { }
 
 class DummyLogger {
 public:
