@@ -32,6 +32,7 @@ set(SRC_FILES
   ConsolePathView.cc
   ConsoleViewBackend.cc
   DijkstraPathFinder.cc
+  AStarPathFinder.cc
   Map.cc
   Path.cc
   Renderer.cc

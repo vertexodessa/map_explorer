@@ -17,6 +17,8 @@ public:
     int32_t width() const {return m_height;};
     int32_t height() const {return m_width;};
 
+    Cell& operator[](size_t idx) { return m_cells[idx]; };
+
     const std::vector<Cell>& Cells() const {return m_cells;}
 private:
     friend class ConsoleMapView;
