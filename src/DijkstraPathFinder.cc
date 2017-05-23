@@ -18,32 +18,12 @@ DijkstraPathFinder::DijkstraPathFinder(shared_ptr<Map> map)
 
 }
 
-unique_ptr<Path> DijkstraPathFinder::Solve() {
+unique_ptr<Path> DijkstraPathFinder::solve() {
 
-    auto FindStartCell = [](Map* map) -> Cell const* {
-        for(auto& cell : map->Cells()) {
-            if (cell.getType() == kStartCellType) {
-                return &cell;
-            }
-        }
-        return nullptr;
-    };
+    size_t start_idx = m_map->start();
+    size_t finish_idx = m_map->finish();
 
-    auto FindFinishCell = [](Map* map) -> Cell const* {
-        for(auto& cell : map->Cells()) {
-            if (cell.getType() == kFinishCellType) {
-                return &cell;
-            }
-        }
-        return nullptr;
-    };
-
-
-    Cell const *startCell, *finishCell;
-    startCell = FindStartCell(m_map.get());
-    finishCell = FindFinishCell(m_map.get());
-
-    if (!startCell || !finishCell) {
+    if (-1 == start_idx || -1 == finish_idx) {
         LOG_FATAL << "The map is not correct. Cannot find a start or finish cell.";
         return nullptr;
     }
@@ -55,10 +35,8 @@ unique_ptr<Path> DijkstraPathFinder::Solve() {
     const int32_t kINF = 100000000;
     vector<int32_t> dist(cell_count, kINF);
 
-    int32_t start_pos = startCell->x() * startCell->y();
-
-    setds.insert(make_pair(0, start_pos));
-    dist[start_pos] = 0;
+    setds.insert(make_pair(0, start_idx));
+    dist[start_idx] = 0;
 
     while (!setds.empty())
     {
@@ -82,19 +60,19 @@ unique_ptr<Path> DijkstraPathFinder::Solve() {
         int32_t y = currentCell/w;
 
         if (x > 0) {
-            int32_t weight = GetWeightFor(m_map->Cells()[currentCell-1].getType());
+            int32_t weight = m_map->weight(currentCell-1);
             adj.emplace_back(currentCell-1, weight);
         }
         if (x < w-1) {
-            int32_t weight = GetWeightFor(m_map->Cells()[currentCell+1].getType());
+            int32_t weight = m_map->weight(currentCell+1);
             adj.emplace_back(currentCell+1, weight);
         }
         if (y > 0) {
-            int32_t weight = GetWeightFor(m_map->Cells()[currentCell-w].getType());
+            int32_t weight = m_map->weight(currentCell-w);
             adj.emplace_back(currentCell-w, weight);
         }
         if (y < h-1) {
-            int32_t weight = GetWeightFor(m_map->Cells()[currentCell+w].getType());
+            int32_t weight = m_map->weight(currentCell+w);
             adj.emplace_back(currentCell+w, weight);
         }
 
@@ -131,14 +109,16 @@ unique_ptr<Path> DijkstraPathFinder::Solve() {
 
     unique_ptr<Path> ret {new Path(m_map->width(), m_map->height())};
 
-    Point startPoint{startCell->x(), startCell->y()};
-    Point endPoint{finishCell->x(), finishCell->y()};
+    Cell& startCell = (*m_map)[start_idx];
+    Cell& finishCell = (*m_map)[finish_idx];
+    Point startPoint{startCell.x(), startCell.y()};
+    Point endPoint{finishCell.x(), finishCell.y()};
 
     for (uint32_t i=0; i < dist.size(); ++i) {
         LOG_TRACE << "element #" << i <<": " << dist[i];
     }
 
-    ret->CalculateFromDistances(dist, startPoint, endPoint);
+    ret->calculateFromDistances(dist, startPoint, endPoint);
 
     return ret;
 }

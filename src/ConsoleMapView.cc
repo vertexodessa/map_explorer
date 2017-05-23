@@ -1,4 +1,3 @@
-// ConsoleCellView
 // ConsoleMapVieConfiguration
 
 
@@ -23,7 +22,7 @@ wchar_t CellRepresentation(char cellType) {
 
 }
 
-void ConsoleMapView::Draw() const {
+void ConsoleMapView::draw() const {
     int initX, initY;
     getyx(stdscr, initY, initX);
 

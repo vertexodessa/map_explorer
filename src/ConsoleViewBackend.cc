@@ -4,7 +4,7 @@
 
 namespace map_solver {
 
-void ConsoleViewBackend::Initialize() {
+void ConsoleViewBackend::initialize() {
     def_prog_mode();
     initscr();
     noecho();
@@ -12,7 +12,7 @@ void ConsoleViewBackend::Initialize() {
     curs_set(FALSE);
 }
 
-void ConsoleViewBackend::DeInitialize() {
+void ConsoleViewBackend::deInitialize() {
     erase();
     reset_prog_mode();
     curs_set(TRUE);

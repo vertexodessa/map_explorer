@@ -63,12 +63,48 @@ inline vector<Cell> ReadCellsFromFile(string filename) {
 
     return ret;
 }
+
+int GetWeightFor(char type) {
+    static map<char, int> s_map = {
+        {' ', 1},
+        {'*', 65000}
+    };
+    if (s_map.find(type) == s_map.end()) {
+        LOG_ERROR << (int) type << " not found in the weight map!";
+        return 1;
+    }
+    return s_map[type];
+}
+
 }
 
 Map::Map() {
 }
 
-int Map::ReadFromFile(std::string filename) {
+const index Map::start() const {
+    auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
+                          [](const auto& c) {
+                              return c.getType() == kStartCellType;
+                          });
+    index idx = i->x() + (i->y() * m_width);
+    return (i == m_cells.end()) ? -1 : idx;
+}
+
+const index Map::finish() const {
+    auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
+                          [](const auto& c) {
+                              return c.getType() == kFinishCellType;
+                          });
+    index idx = i->x() + (i->y() * m_width);
+    return (i == m_cells.end()) ? -1 : idx;
+}
+
+uint32_t Map::weight(index idx) const {
+    return GetWeightFor(m_cells[idx].getType());
+}
+
+
+int Map::readFromFile(std::string filename) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
 
     path p(filename);

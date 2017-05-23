@@ -12,8 +12,8 @@ class ConsoleViewBackend : public IViewBackend {
 public:
     // IViewBackend
     virtual ~ConsoleViewBackend() final {};
-    virtual void Initialize() final;
-    virtual void DeInitialize() final;
+    virtual void initialize() final;
+    virtual void deInitialize() final;
 };
 
 

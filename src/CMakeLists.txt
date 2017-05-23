@@ -26,9 +26,7 @@ message("PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 
 set(SRC_FILES
   Cell.cc
-  ConsoleCellView.cc
   ConsoleMapView.cc
-  ConsoleMapViewConfiguration.cc
   ConsolePathView.cc
   ConsoleViewBackend.cc
   DijkstraPathFinder.cc

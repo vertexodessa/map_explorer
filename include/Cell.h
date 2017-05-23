@@ -5,9 +5,6 @@
 
 namespace map_solver {
 
-
-int GetWeightFor(char type);
-
 class Cell {
 public:
     Cell() : m_type(-1), m_x(-1), m_y(-1) {};

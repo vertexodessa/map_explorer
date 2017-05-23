@@ -5,8 +5,8 @@ namespace map_solver {
 
 class IViewBackend {
 public:
-    virtual void Initialize() = 0;
-    virtual void DeInitialize() = 0;
+    virtual void initialize() = 0;
+    virtual void deInitialize() = 0;
     virtual ~IViewBackend() {}
 };
 

@@ -7,7 +7,7 @@ namespace map_solver {
 
 class PathViewFactory {
 public:
-    static std::unique_ptr<IPathView> Create(std::shared_ptr<Path> path) {
+    static std::unique_ptr<IPathView> create(std::shared_ptr<Path> path) {
         // TODO: add possibility to create a different kind of PathView
         return std::unique_ptr<IPathView>(new ConsolePathView(path));
     };

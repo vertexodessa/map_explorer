@@ -6,7 +6,7 @@ using namespace std;
 
 namespace map_solver {
 
-void Path::CalculateFromDistances(std::vector<int32_t> dist, const Point& start, const Point& end) {
+void Path::calculateFromDistances(std::vector<int32_t> dist, const Point& start, const Point& end) {
     m_cells(end.first, end.second) = 1;
     const auto minimum = [](const int32_t a, const int32_t b, const int32_t c, const int32_t d) {
         return min(min(min(a, b), c), d);

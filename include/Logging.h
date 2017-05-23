@@ -52,7 +52,7 @@ namespace expr = boost::log::expressions;
 
 namespace Logging {
 
-inline void InitLogging() {
+inline void initLogging() {
 //    logging::add_file_log("map_solver.log");
     logging::add_file_log
     (

@@ -18,39 +18,39 @@ using namespace std;
 
 int main(int, char*[])
 {
-    Logging::InitLogging();
+    Logging::initLogging();
     LOG_TRACE << "Starting";
 
-    unique_ptr<IViewBackend> backend { ViewBackendFactory::Create() };
-    backend->Initialize();
+    unique_ptr<IViewBackend> backend { ViewBackendFactory::create() };
+    backend->initialize();
 
     LOG_TRACE << "Reading the map";
 
     shared_ptr<Map> map = make_shared<Map>();
-    if (-1 == map->ReadFromFile("crafted_map.map")) {
+    if (-1 == map->readFromFile("crafted_map.map")) {
         LOG_ERROR << "Can't read map; exiting";
-        backend->DeInitialize();
+        backend->deInitialize();
         exit(1);
     };
 
     LOG_TRACE << "Read the map. Creating map view.";
 
-    unique_ptr<IMapView> view = MapViewFactory::Create(map);
+    unique_ptr<IMapView> view = MapViewFactory::create(map);
     shared_ptr<IMapView> viewPtr { move(view) };
 
     Renderer p;
-    p.SetMapView(viewPtr);
+    p.setMapView(viewPtr);
 
-    unique_ptr<IPathFinder> pf = PathFinderFactory::Create(map);
-    shared_ptr<Path> path { pf->Solve() };
-    shared_ptr<IPathView> pathView = PathViewFactory::Create(path);
+    unique_ptr<IPathFinder> pf = PathFinderFactory::create(map);
+    shared_ptr<Path> path { pf->solve() };
+    shared_ptr<IPathView> pathView = PathViewFactory::create(path);
 
-    p.SetPathView(pathView);
-    p.Draw();
+    p.setPathView(pathView);
+    p.draw();
 
     getch();
 
-    backend->DeInitialize();
+    backend->deInitialize();
 
     return 0;
 }
