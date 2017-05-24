@@ -24,6 +24,9 @@ void Path::calculateFromDistances(std::vector<int32_t> dist, const Point& start,
         x = current.first;
         y = current.second;
 
+        int32_t width = m_cells.size1();
+        int32_t height = m_cells.size2();
+
         int32_t top = numeric_limits<int32_t>::max();
         int32_t bottom = numeric_limits<int32_t>::max();
         int32_t left = numeric_limits<int32_t>::max();
@@ -32,9 +35,9 @@ void Path::calculateFromDistances(std::vector<int32_t> dist, const Point& start,
             top = dist[x + (y-1) * m_cells.size1()];
         if (x != 0)
             left = dist[x-1 +  y * m_cells.size1()];
-        if (y != m_cells.size2() -1)
+        if (y != height - 1)
             bottom = dist[x + (y+1)*m_cells.size1()];
-        if (x != m_cells.size1() -1)
+        if (x != width - 1)
             right = dist[x+1 + y*m_cells.size1()];
         int min_int = minimum(top, bottom, left, right);
 
