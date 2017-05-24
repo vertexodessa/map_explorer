@@ -37,7 +37,8 @@ public:
                 LOG_TRACE << "Adjacent cells for " << idx << " (" << x << ", " << y << ")" << " is: " << a;
             }
         }
-
+    private:
+        friend boost::iterator_core_access;
         bool equal(const AdjacentCells<size_type>::iterator& other) const {
             return this->m_current_iter == other.m_current_iter && this->m_start_iter == other.m_start_iter;
         }
@@ -53,7 +54,6 @@ public:
             return const_cast<size_type&>(m_ids[m_current_iter]);
         }
 
-    private:
         std::vector<size_type> m_ids;
         size_type m_start_iter;
         size_type m_current_iter;
