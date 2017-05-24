@@ -4,25 +4,22 @@
 #include "Logging.h"
 
 #include <vector>
-#include <boost/operators.hpp>
 
+#include <boost/iterator/iterator_facade.hpp>
 
 template <typename size_type>
 class AdjacentCells {
 public:
-    class iterator : private boost::equality_comparable<iterator> {
+    class iterator :
+        public boost::iterator_facade < iterator,
+                                        size_type,
+                                        boost::single_pass_traversal_tag> {
     public:
-        static iterator& end() {
-            static iterator end_(0, 0, -1);
-            return end_;
-        }
+        iterator() : m_start_iter(-1), m_current_iter(-1) { }
 
         iterator(size_type w, size_type h, size_type idx) :
             m_start_iter(idx),
             m_current_iter(0) {
-
-            if (idx == -1)
-                return;
 
             size_type x = idx % w;
             size_type y = idx / w;
@@ -41,28 +38,34 @@ public:
             }
         }
 
-        iterator& operator ++() {
-            if (m_current_iter == ((size_type)m_ids.size() - 1) || *this == end()) {
-                *this = end();
-                return end();
-            }
+        bool equal(const AdjacentCells<size_type>::iterator& other) const {
+            return this->m_current_iter == other.m_current_iter && this->m_start_iter == other.m_start_iter;
+        }
+
+        void increment() {
             ++m_current_iter;
-            return *this;
-        };
+            if (m_current_iter == ((size_type)m_ids.size())) {
+                *this = end();
+            }
+        }
 
-        friend bool operator==(const AdjacentCells<size_type>::iterator& one, const AdjacentCells<size_type>::iterator& two) {
-            return one.m_current_iter == two.m_current_iter && one.m_start_iter == two.m_start_iter;
-        };
+        size_type& dereference() const {
+            return const_cast<size_type&>(m_ids[m_current_iter]);
+        }
 
-        size_type operator *() { return m_current_iter != -1 ? m_ids[m_current_iter] : -1; }
     private:
         std::vector<size_type> m_ids;
         size_type m_start_iter;
         size_type m_current_iter;
     };
+
     AdjacentCells(size_type w, size_type h, size_type i) : m_width(w), m_height(h), m_index(i){};
     iterator begin() {return iterator(m_width, m_height, m_index);}
-    iterator end() {return iterator::end(); }
+    static iterator& end() {
+        static iterator s_end;
+        return s_end;
+    }
+
 private:
     size_type m_width, m_height, m_index;
 };
