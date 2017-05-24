@@ -33,7 +33,7 @@ ADD include /map_solver/include
 ADD LICENSE /map_solver/LICENSE
 ADD README.md /map_solver/README.md
 ADD src /map_solver/src
-ADD test /map_solver/test
+#ADD test /map_solver/test
 
 WORKDIR /map_solver/build/
 RUN cmake ..
