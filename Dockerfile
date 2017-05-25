@@ -15,13 +15,8 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN  apt-get -y install \
-          software-properties-common \
-          emacs \
-          pwgen \
-          unzip \
-          curl \
-          git-core \
-          libboost-all-dev g++ gcc libncurses-dev libncursesw5-dev mc pkg-config cmake  g++ gcc libncurses-dev libncursesw5-dev
+          libboost-all-dev g++ gcc libncurses-dev libncursesw5-dev pkg-config cmake  g++ gcc \
+          libgtest-dev
 
 RUN  rm -rf /var/lib/apt/lists/*
 
