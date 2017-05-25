@@ -1,24 +1,13 @@
 
-FROM ubuntu:16.04
+FROM vertexodessa/main:ubuntu_minimal_boost
 
 MAINTAINER Ihor Ivlev version: 0.1
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get clean && apt-get update
-RUN apt-get install -y locales apt-utils
-RUN locale-gen en_US.UTF-8
-
-RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-
-RUN  apt-get -y install \
-          libboost-all-dev g++ gcc libncurses-dev libncursesw5-dev pkg-config cmake  g++ gcc \
-          libgtest-dev
-
-RUN  rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /map_solver/build/
 
@@ -28,8 +17,15 @@ ADD include /map_solver/include
 ADD LICENSE /map_solver/LICENSE
 ADD README.md /map_solver/README.md
 ADD src /map_solver/src
-#ADD test /map_solver/test
+ADD unittests /map_solver/unittests
 
+# google tests
+WORKDIR /usr/src/gtest
+RUN cmake CMakeLists.txt
+RUN make
+RUN cp *.a /usr/lib
+
+# compile and run the app itself
 WORKDIR /map_solver/build/
 RUN cmake ..
 RUN cp ../crafted_map.map ./
