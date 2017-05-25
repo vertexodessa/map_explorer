@@ -10,7 +10,7 @@ include_directories(${CURSES_INCLUDE_DIRS})
 link_directories(${CURSES_LIBRARY_DIRS})
 
 # Boost
-find_package(Boost 
+find_package(Boost
   COMPONENTS system filesystem log
   REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
