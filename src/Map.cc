@@ -25,28 +25,25 @@ namespace map_solver {
 namespace {
 constexpr int kHeaderSize = 8;
 
-inline Rect GetMapSize(string filename) {
+inline Rect GetMapSize(istream& f) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
 
     int x,y;
-    ifstream f;
-    f.open(filename);
+    f.clear();
+    f.seekg(0);
 
     f.read((char*)&x, 4);
     f.read((char*)&y, 4);
+
     return Rect(x,y);
 }
 
-inline vector<Cell> ReadCellsFromFile(string filename) {
+inline vector<Cell> ReadCellsFromFile(istream& f) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
     vector<Cell> ret;
 
     int x, y;
-    ifstream f;
-    f.open(filename);
-
-    f.read((char*)&x, 4);
-    f.read((char*)&y, 4);
+    tie(x, y) = GetMapSize(f);
 
     char c;
     ret.reserve(x*y);
@@ -82,7 +79,7 @@ int GetWeightFor(char type) {
 Map::Map() {
 }
 
-const index Map::start() const {
+index Map::start() const {
     auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
                           [](const auto& c) {
                               return c.getType() == kStartCellType;
@@ -91,7 +88,7 @@ const index Map::start() const {
     return (i == m_cells.end()) ? -1 : idx;
 }
 
-const index Map::finish() const {
+index Map::finish() const {
     auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
                           [](const auto& c) {
                               return c.getType() == kFinishCellType;
@@ -104,8 +101,43 @@ uint32_t Map::weight(index idx) const {
     return GetWeightFor(m_cells[idx].getType());
 }
 
+int32_t Map::readFromStream(istream& stream) {
+    LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
 
-int Map::readFromFile(std::string filename) {
+    if (stream.bad()) {
+        LOG_ERROR << "istream is in incorrect state.";
+        return -1;
+    }
+
+    uint32_t width, height;
+    tie(width, height) = GetMapSize(stream);
+
+    streampos estimatedDataSize = width * height;
+
+    streampos fsize = stream.tellg();
+    stream.seekg( 0, std::ios::end );
+    fsize = stream.tellg() - fsize;
+
+    if (fsize != estimatedDataSize) {
+        LOG_ERROR << "Stream size (" << fsize << ") does not equal to the estimated file size " << estimatedDataSize;
+        return -1;
+    }
+
+    // read cells
+    m_cells = ReadCellsFromFile(stream);
+
+    if (m_cells.size() != (width * height)) {
+        LOG_ERROR << "Read " << m_cells.size() << " cells, expected " << width * height << " cells";
+        return -1;
+    }
+
+    m_width = width;
+    m_height = height;
+
+    return m_cells.size();
+}
+
+int Map::readFromFile(string filename) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
 
     path p(filename);
@@ -115,30 +147,10 @@ int Map::readFromFile(std::string filename) {
         return -1;
     }
 
-    int cell_count=0;
-    Rect mapSize = GetMapSize(filename);
+    ifstream file;
+    file.open(filename);
 
-    uint32_t width, height;
-    tie(width, height) = mapSize;
-    cell_count = width * height;
-
-    uintmax_t estimatedFileSize = width * height + kHeaderSize;
-    LOG_TRACE << "File size of " << filename <<  " " << file_size(p) << ", estimated file size " << estimatedFileSize;
-    if (file_size(p) != estimatedFileSize) {
-        LOG_ERROR << "File size of " << filename <<  " (" << file_size(p) << ") does not equal to the estimated file size " << estimatedFileSize;
-        return -1;
-    }
-
-    // read cells
-    m_cells = ReadCellsFromFile(filename);
-
-    if (m_cells.size() != (width * height)) {
-        LOG_ERROR << "Read " << m_cells.size() << " cells, expected " << width * height << " cells";
-        return -1;
-    }
-
-    m_width = width;
-    m_height = height;
+    int cell_count = readFromStream(file);
 
     return cell_count;
 }

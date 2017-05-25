@@ -32,6 +32,3 @@ RUN cp ../crafted_map.map ./
 RUN make -j 9
 
 ENV TERM=xterm
-CMD ./MapSolver
-
-

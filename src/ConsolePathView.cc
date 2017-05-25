@@ -39,7 +39,9 @@ void ConsolePathView::draw() const {
 
             wmove(map_win, y+1, x+1);
 
-            cchar_t ct = {0};
+            cchar_t ct;
+            memset(&ct, 0, sizeof(ct));
+
             ct.chars[1] = L'\0';
             ct.chars[0] = L'*';
             wadd_wch(map_win, &ct);

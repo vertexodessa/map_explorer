@@ -41,7 +41,7 @@ class throwing_astar_visitor : public boost::default_astar_visitor
 public:
     throwing_astar_visitor(Vertex goal) : m_goal(goal) {}
     template <class Graph>
-    void examine_vertex(Vertex u, Graph& g) throw(found_goal) {
+    void examine_vertex(Vertex u, Graph& /*g*/) throw(found_goal) {
         LOG_TRACE << "Examining vertex: " << u;
         if(u == m_goal)
             throw found_goal();
