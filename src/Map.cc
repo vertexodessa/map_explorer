@@ -76,50 +76,62 @@ int GetWeightFor(char type) {
 
 }
 
+void Map::checkInBounds(index_t idx) const throw(OutOfBoundsException) {
+    if (idx > m_cells.size())
+        throw OutOfBoundsException("index is larger than the current cell size");
+    if (idx/m_width > m_height)
+        throw OutOfBoundsException("y is larger than the current height");
+    if (m_width == kNonexistentIndex)
+        throw OutOfBoundsException("m_width == -1");
+}
+
 Map::Map() {
 }
 
 index_t Map::cartesianToIndex(index_t x, index_t y) const throw(OutOfBoundsException) {
-    // TODO: test
-    if (m_width == kNonexistentIndex)
-        throw OutOfBoundsException("m_width == -1");
-    return x + y * m_width;
+    // TODO: make a test
+    index_t idx = x + y * m_width;
+    checkInBounds(idx);
+
+    return idx;
 }
 
 CartesianPoint Map::indexToCartesian(index_t i) const throw(OutOfBoundsException) {
+    checkInBounds(i);
+
     index_t x = i%m_width;
     index_t y = i/m_width;
-
-    if ( y > m_height )
-        throw OutOfBoundsException("y > m_height");
 
     return CartesianPoint{ x, y };
 }
 
+Cell& Map::operator[](index_t idx) throw(OutOfBoundsException) {
+    checkInBounds(idx);
+    return m_cells[idx];
+};
 
-index_t Map::start() const {
+index_t Map::start() const throw(OutOfBoundsException) {
     auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
                           [](const auto& c) {
                               return c.getType() == kStartCellType;
                           });
     index_t idx = i->index();
-    if (i == m_cells.end())
-        throw OutOfBoundsException("can't find start point");
+    checkInBounds(idx);
     return idx;
 }
 
-index_t Map::finish() const {
+index_t Map::finish() const throw(OutOfBoundsException) {
     auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
                           [](const auto& c) {
                               return c.getType() == kFinishCellType;
                           });
     index_t idx = i->index();
-    if (i == m_cells.end())
-        throw OutOfBoundsException("can't find start point");
+    checkInBounds(idx);
     return idx;
 }
 
-weight_t Map::weight(index_t idx) const {
+weight_t Map::weight(index_t idx) const throw(OutOfBoundsException) {
+    checkInBounds(idx);
     return GetWeightFor(m_cells[idx].getType());
 }
 
