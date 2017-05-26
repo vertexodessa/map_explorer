@@ -79,7 +79,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
     start_idx = m_map->start();
     finish_idx = m_map->finish();
 
-    if (-1 == start_idx || -1 == finish_idx) {
+    if (kNonexistentIndex == start_idx || kNonexistentIndex == finish_idx) {
         LOG_FATAL << "The map is not correct. Cannot find a start or finish cell.";
         return nullptr;
     }
