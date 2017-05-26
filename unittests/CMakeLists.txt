@@ -31,6 +31,7 @@ include_directories(
 add_executable(${GTEST_BINARY_NAME}
   test_main.cc
   test_map.cc
+  test_iterator.cc
   )
 
 target_link_libraries(${GTEST_BINARY_NAME}
