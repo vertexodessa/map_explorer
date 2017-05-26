@@ -11,8 +11,8 @@ void Path::checkInBounds(index_t idx) const throw(OutOfBoundsException) {
         throw OutOfBoundsException("index is larger than the current cell size");
     if (idx/m_width > m_height)
         throw OutOfBoundsException("y is larger than the current height");
-    if (m_width == kNonexistentIndex)
-        throw OutOfBoundsException("m_width == -1");
+    if (m_width == kNonexistentIndex || m_height == kNonexistentIndex)
+        throw OutOfBoundsException("m_width or m_height == -1");
 }
 
 index_t Path::cell(index_t idx) const throw(OutOfBoundsException) {
