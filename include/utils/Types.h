@@ -16,6 +16,11 @@ struct OutOfBoundsException : public std::runtime_error {
     virtual ~OutOfBoundsException() {}
 };
 
+struct DestinationUnreachableException : public std::runtime_error {
+    DestinationUnreachableException(const std::string& s) : std::runtime_error(s) {};
+    virtual ~DestinationUnreachableException() {}
+};
+
 }
 
 #endif

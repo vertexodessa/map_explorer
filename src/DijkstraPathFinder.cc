@@ -2,6 +2,7 @@
 #include "Logging.h"
 #include "Map.h"
 #include "Path.h"
+#include "utils/AdjacentCellIterator.h"
 #include "utils/Constants.h"
 #include "utils/Types.h"
 
@@ -23,7 +24,7 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
     index_t start_idx = m_map->start();
     index_t finish_idx = m_map->finish();
 
-    if (kNonexistentIndex == start_idx || kNonexistentIndex == finish_idx) {
+    if (kNonExistentIndex == start_idx || kNonExistentIndex == finish_idx) {
         LOG_FATAL << "The map is not correct. Cannot find a start or finish cell.";
         return nullptr;
     }
@@ -45,44 +46,14 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
 
         int currentCell = tmp.second;
 
-        struct AdjacentCell {
-            AdjacentCell(index_t p, index_t w) : pos(p), weight(w) {};
-            index_t pos;
-            index_t weight;
-        };
+        AdjacentCells<index_t> adj(m_map->width(), m_map->height(), currentCell);
 
-        list< AdjacentCell > adj;
-
-        // update adjacent cell vector
-        index_t w = m_map->width();
-        index_t h = m_map->height();
-        index_t x = currentCell%w;
-        index_t y = currentCell/w;
-
-        if (x > 0) {
-            index_t weight = m_map->weight(currentCell-1);
-            adj.emplace_back(currentCell-1, weight);
-        }
-        if (x < w-1) {
-            index_t weight = m_map->weight(currentCell+1);
-            adj.emplace_back(currentCell+1, weight);
-        }
-        if (y > 0) {
-            index_t weight = m_map->weight(currentCell-w);
-            adj.emplace_back(currentCell-w, weight);
-        }
-        if (y < h-1) {
-            index_t weight = m_map->weight(currentCell+w);
-            adj.emplace_back(currentCell+w, weight);
-        }
-
-        // 'i' is used to get all adjacent cells of a cell
-        list< AdjacentCell >::iterator i;
+        AdjacentCells<index_t>::iterator i;
         for (i = adj.begin(); i != adj.end(); ++i)
         {
-            LOG_TRACE << "Got adjacent cell: " << i->pos;
-            index_t currentAdjacent = i->pos;
-            index_t weight = i->weight;
+            LOG_TRACE << "Got adjacent cell: " << *i;
+            index_t currentAdjacent = *i;
+            index_t weight = m_map->weight(*i);
 
             LOG_TRACE << "Distance of current adjacent cell to the start: " << dist[currentAdjacent];
             LOG_TRACE << "Weight of current adjacent cell: " << weight;
@@ -109,16 +80,11 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
 
     unique_ptr<Path> ret {new Path(m_map->width(), m_map->height())};
 
-    Cell& startCell = (*m_map)[start_idx];
-    Cell& finishCell = (*m_map)[finish_idx];
-    index_t startPoint{startCell.index()};
-    index_t endPoint{finishCell.index()};
-
     for (index_t i=0; i < dist.size(); ++i) {
         LOG_TRACE << "element #" << i <<": " << dist[i];
     }
 
-    ret->calculateFromDistances(dist, startPoint, endPoint);
+    m_weight = ret->calculateFromDistances(dist, start_idx, finish_idx);
 
     return ret;
 }

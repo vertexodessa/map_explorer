@@ -19,16 +19,16 @@ public:
     index_t fieldWidth() const {return m_width;}
     index_t fieldHeight() const {return m_height;}
 
-    void calculateFromDistances(std::vector<index_t> dist, index_t start, index_t end)  throw(OutOfBoundsException);
-    index_t cell(index_t idx) const  throw(OutOfBoundsException);
-    index_t cell(index_t x, index_t y) const  throw(OutOfBoundsException);
+    weight_t calculateFromDistances(std::vector<index_t> dist, index_t start, index_t end);
+    index_t cell(index_t idx) const;
+    index_t cell(index_t x, index_t y) const;
 
-    void markCell(index_t idx) throw(OutOfBoundsException);
+    void markCell(index_t idx);
 
-    index_t cartesianToIndex(index_t x, index_t y) const throw(OutOfBoundsException);
-    CartesianPoint indexToCartesian(index_t i) const throw(OutOfBoundsException);
+    index_t cartesianToIndex(index_t x, index_t y) const;
+    CartesianPoint indexToCartesian(index_t i) const;
 private:
-    void checkInBounds(index_t idx) const throw(OutOfBoundsException);
+    void checkInBounds(index_t idx) const;
 
     std::vector<index_t> m_cells;
     index_t m_width, m_height;

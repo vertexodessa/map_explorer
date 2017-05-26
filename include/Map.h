@@ -24,22 +24,22 @@ public:
     index_t width() const {return m_width;};
     index_t height() const {return m_height;};
 
-    Cell& operator[](index_t idx) throw(OutOfBoundsException);
+    Cell& operator[](index_t idx);
 
-    index_t start() const throw(OutOfBoundsException);
-    index_t finish() const throw(OutOfBoundsException);
+    index_t start() const;
+    index_t finish() const;
 
-    weight_t weight(index_t idx) const throw(OutOfBoundsException);
+    weight_t weight(index_t idx) const;
 
-    index_t cartesianToIndex(index_t x, index_t y) const throw(OutOfBoundsException);
-    CartesianPoint indexToCartesian(index_t i) const throw(OutOfBoundsException);
+    index_t cartesianToIndex(index_t x, index_t y) const;
+    CartesianPoint indexToCartesian(index_t i) const;
 private:
     friend class ConsoleMapView;
 
-    void checkInBounds(index_t idx) const throw(OutOfBoundsException);
+    void checkInBounds(index_t idx) const;
     std::vector<Cell> m_cells;
-    index_t m_width {kNonexistentIndex};
-    index_t m_height {kNonexistentIndex};
+    index_t m_width {kNonExistentIndex};
+    index_t m_height {kNonExistentIndex};
 };
 
 }

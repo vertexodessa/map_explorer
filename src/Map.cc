@@ -63,9 +63,11 @@ inline vector<Cell> ReadCellsFromFile(istream& f) {
 }
 
 int GetWeightFor(char type) {
-    static map<char, int> s_map = {
+    static map<char, weight_t> s_map = {
+        {'s', 1},
+        {'e', 1},
         {' ', 1},
-        {'*', 65000}
+        {'*', kWallWeight}
     };
     if (s_map.find(type) == s_map.end()) {
         LOG_ERROR << (int) type << " not found in the weight map!";
@@ -76,19 +78,19 @@ int GetWeightFor(char type) {
 
 }
 
-void Map::checkInBounds(index_t idx) const throw(OutOfBoundsException) {
+void Map::checkInBounds(index_t idx) const {
     if (idx > m_cells.size())
         throw OutOfBoundsException("index is larger than the current cell size");
     if (idx/m_width > m_height)
         throw OutOfBoundsException("y is larger than the current height");
-    if (m_width == kNonexistentIndex)
+    if (m_width == kNonExistentIndex)
         throw OutOfBoundsException("m_width == -1");
 }
 
 Map::Map() {
 }
 
-index_t Map::cartesianToIndex(index_t x, index_t y) const throw(OutOfBoundsException) {
+index_t Map::cartesianToIndex(index_t x, index_t y) const {
     // TODO: make a test
     index_t idx = x + y * m_width;
     checkInBounds(idx);
@@ -96,7 +98,7 @@ index_t Map::cartesianToIndex(index_t x, index_t y) const throw(OutOfBoundsExcep
     return idx;
 }
 
-CartesianPoint Map::indexToCartesian(index_t i) const throw(OutOfBoundsException) {
+CartesianPoint Map::indexToCartesian(index_t i) const {
     checkInBounds(i);
 
     index_t x = i%m_width;
@@ -105,12 +107,12 @@ CartesianPoint Map::indexToCartesian(index_t i) const throw(OutOfBoundsException
     return CartesianPoint{ x, y };
 }
 
-Cell& Map::operator[](index_t idx) throw(OutOfBoundsException) {
+Cell& Map::operator[](index_t idx){
     checkInBounds(idx);
     return m_cells[idx];
 };
 
-index_t Map::start() const throw(OutOfBoundsException) {
+index_t Map::start() const {
     auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
                           [](const auto& c) {
                               return c.getType() == kStartCellType;
@@ -120,7 +122,7 @@ index_t Map::start() const throw(OutOfBoundsException) {
     return idx;
 }
 
-index_t Map::finish() const throw(OutOfBoundsException) {
+index_t Map::finish() const {
     auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
                           [](const auto& c) {
                               return c.getType() == kFinishCellType;
@@ -130,7 +132,7 @@ index_t Map::finish() const throw(OutOfBoundsException) {
     return idx;
 }
 
-weight_t Map::weight(index_t idx) const throw(OutOfBoundsException) {
+weight_t Map::weight(index_t idx) const {
     checkInBounds(idx);
     return GetWeightFor(m_cells[idx].getType());
 }
