@@ -10,24 +10,25 @@
 
 
 namespace map_solver {
-
 class Cell;
 
 class Path {
 public:
-    Path(int32_t w, int32_t h) : m_cells(boost::numeric::ublas::zero_matrix<int>(w, h)) {};
-    void calculateFromDistances(std::vector<int32_t> dist, const Point& start, const Point& end);
-    int32_t cell(int32_t x, int32_t y) const {return m_cells(x, y);}
-    int32_t fieldWidth() const {return m_cells.size1();}
-    int32_t fieldHeight() const {return m_cells.size2();}
-    void markCell(size_t idx) {
-        size_t x = idx % fieldWidth();
-        size_t y = idx / fieldWidth();
-        m_cells(x, y) = 1;
+    Path(index_t w, index_t h) : m_cells(w*h), m_w(w), m_h(h) {};
+    void calculateFromDistances(std::vector<index_t> dist, index_t start, index_t end);
+    index_t cell(index_t idx) const {return m_cells[idx];}
+    index_t cell(index_t x, index_t y) const {return m_cells[cartesianToIndex(x, y)];}
+    index_t fieldWidth() const {return m_w;}
+    index_t fieldHeight() const {return m_h;}
+    void markCell(index_t idx) {
+        m_cells[idx] = 1;
     };
+
+    index_t cartesianToIndex(index_t x, index_t y) const throw(OutOfBoundsException);
+    CartesianPoint indexToCartesian(index_t i) const throw(OutOfBoundsException);
 private:
-    // friend class ConsolePathView;
-    boost::numeric::ublas::matrix<int32_t> m_cells;
+    std::vector<index_t> m_cells;
+    index_t m_w, m_h;
 };
 
 }

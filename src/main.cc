@@ -27,7 +27,7 @@ int main(int, char*[])
     LOG_TRACE << "Reading the map";
 
     shared_ptr<Map> map = make_shared<Map>();
-    if (-1 == map->readFromFile("crafted_map.map")) {
+    if (kNonexistentIndex == map->readFromFile("crafted_map.map")) {
         LOG_ERROR << "Can't read map; exiting";
         backend->deInitialize();
         exit(1);

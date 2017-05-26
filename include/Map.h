@@ -3,6 +3,8 @@
 
 #include "Cell.h"
 #include "interfaces/IMapView.h"
+#include "utils/Constants.h"
+#include "utils/Types.h"
 
 #include <algorithm>
 #include <string>
@@ -12,32 +14,31 @@
 
 namespace map_solver {
 
-typedef uint32_t index;
-
 class Map {
 public:
     Map();
     ~Map(){}
-    int32_t readFromFile(std::string filename);
-    int32_t readFromStream(std::istream& s);
+    index_t readFromFile(std::string filename);
+    index_t readFromStream(std::istream& s);
 
-    // TODO: remove this. use indexes instead.
-    Cell& operator[](size_t idx) { return m_cells[idx]; };
+    Cell& operator[](index_t idx) { return m_cells[idx]; };
 
-    index start() const;
-    index finish() const;
+    index_t start() const;
+    index_t finish() const;
 
-    int32_t width() const {return m_width;};
-    int32_t height() const {return m_height;};
+    index_t width() const {return m_width;};
+    index_t height() const {return m_height;};
 
-    uint32_t weight(index idx) const;
+    weight_t weight(index_t idx) const;
 
+    index_t cartesianToIndex(index_t x, index_t y) const throw(OutOfBoundsException);
+    CartesianPoint indexToCartesian(index_t i) const throw(OutOfBoundsException);
 private:
     friend class ConsoleMapView;
 
     std::vector<Cell> m_cells;
-    int32_t m_width {-1};
-    int32_t m_height {-1};
+    index_t m_width {kNonexistentIndex};
+    index_t m_height {kNonexistentIndex};
 };
 
 }

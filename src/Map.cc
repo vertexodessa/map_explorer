@@ -55,7 +55,7 @@ inline vector<Cell> ReadCellsFromFile(istream& f) {
             break;
         LOG_TRACE << "read " << (int)c << " as cell number";
         LOG_TRACE << "emplacing cell " << (int)c << " to map position x: " << i%x << ", y: " << i/y ;
-        ret.emplace_back(c, i%x, i/x);
+        ret.emplace_back(c, i);
         ++i;
     }
 
@@ -79,29 +79,51 @@ int GetWeightFor(char type) {
 Map::Map() {
 }
 
-index Map::start() const {
+index_t Map::cartesianToIndex(index_t x, index_t y) const throw(OutOfBoundsException) {
+    // TODO: test
+    if (m_width == kNonexistentIndex)
+        throw OutOfBoundsException("m_width == -1");
+    return x + y * m_width;
+}
+
+CartesianPoint Map::indexToCartesian(index_t i) const throw(OutOfBoundsException) {
+    index_t x = i%m_width;
+    index_t y = i/m_width;
+
+    if ( y > m_height )
+        throw OutOfBoundsException("y > m_height");
+
+    return CartesianPoint{ x, y };
+}
+
+
+index_t Map::start() const {
     auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
                           [](const auto& c) {
                               return c.getType() == kStartCellType;
                           });
-    index idx = i->x() + (i->y() * m_width);
-    return (i == m_cells.end()) ? -1 : idx;
+    index_t idx = i->index();
+    if (i == m_cells.end())
+        throw OutOfBoundsException("can't find start point");
+    return idx;
 }
 
-index Map::finish() const {
+index_t Map::finish() const {
     auto i = std::find_if(m_cells.cbegin(), m_cells.cend(),
                           [](const auto& c) {
                               return c.getType() == kFinishCellType;
                           });
-    index idx = i->x() + (i->y() * m_width);
-    return (i == m_cells.end()) ? -1 : idx;
+    index_t idx = i->index();
+    if (i == m_cells.end())
+        throw OutOfBoundsException("can't find start point");
+    return idx;
 }
 
-uint32_t Map::weight(index idx) const {
+weight_t Map::weight(index_t idx) const {
     return GetWeightFor(m_cells[idx].getType());
 }
 
-int32_t Map::readFromStream(istream& stream) {
+index_t Map::readFromStream(istream& stream) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
 
     if (stream.bad()) {
@@ -109,7 +131,7 @@ int32_t Map::readFromStream(istream& stream) {
         return -1;
     }
 
-    uint32_t width, height;
+    index_t width, height;
     tie(width, height) = GetMapSize(stream);
 
     streampos estimatedDataSize = width * height;
@@ -137,7 +159,7 @@ int32_t Map::readFromStream(istream& stream) {
     return m_cells.size();
 }
 
-int Map::readFromFile(string filename) {
+index_t Map::readFromFile(string filename) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
 
     path p(filename);
@@ -150,7 +172,7 @@ int Map::readFromFile(string filename) {
     ifstream file;
     file.open(filename);
 
-    int cell_count = readFromStream(file);
+    index_t cell_count = readFromStream(file);
 
     return cell_count;
 }

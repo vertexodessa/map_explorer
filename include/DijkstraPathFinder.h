@@ -13,7 +13,6 @@ class Map;
 
 class DijkstraPathFinder : public IPathFinder {
 public:
-
     // IPathFinder
     virtual ~DijkstraPathFinder() final {};
     virtual std::unique_ptr<Path> solve() final;

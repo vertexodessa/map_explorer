@@ -51,7 +51,6 @@ TYPED_TEST(IteratorTest, TwoRandomlyInitializedIteratorsShouldBehaveEqual5x5) {
     EXPECT_EQ(i2, cells.end());
 }
 
-
 TYPED_TEST(IteratorTest, IteratingFromMiddleIndex10x10) {
     AdjacentCells<TypeParam> cells(10, 10, 23);
     typename AdjacentCells<TypeParam>::iterator i = cells.begin();

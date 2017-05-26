@@ -51,7 +51,7 @@ void ConsoleMapView::draw() const {
     for (int y=0; y < m_map->height(); ++y) {
         wmove(map_win, y, 0);
         for (int x=0; x < m_map->width(); ++x) {
-            int32_t cellPos = x + (y * m_map->width());
+            index_t cellPos = x + (y * m_map->width());
             char cellType = m_map->m_cells[cellPos].getType();
             wchar_t cell_representation = CellRepresentation(cellType);
 

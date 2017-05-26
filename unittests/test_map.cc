@@ -53,9 +53,9 @@ TEST_F(MapTest, ExpectedCellCount) {
 TEST_F(MapTest, ReadFromStream) {
     stringstream stream;
 
-    uint32_t ten = 10;
-    stream.write((const char*)&ten, sizeof(uint32_t));
-    stream.write((const char*)&ten, sizeof(uint32_t));
+    index_t ten = 10;
+    stream.write((const char*)&ten, sizeof(index_t));
+    stream.write((const char*)&ten, sizeof(index_t));
     stream.write(kTestField, sizeof(kTestField) - 1);
 
     ASSERT_EQ(sizeof(kTestField), 101);
@@ -64,9 +64,9 @@ TEST_F(MapTest, ReadFromStream) {
 
 TEST_F(MapTest, StartFinish) {
     stringstream stream;
-    uint32_t ten = 10;
-    stream.write((const char*)&ten, sizeof(uint32_t));
-    stream.write((const char*)&ten, sizeof(uint32_t));
+    index_t ten = 10;
+    stream.write((const char*)&ten, sizeof(index_t));
+    stream.write((const char*)&ten, sizeof(index_t));
     stream.write(kTestField, sizeof(kTestField) - 1);
 
     ASSERT_EQ(m_map.readFromStream(stream), 100);
@@ -76,9 +76,9 @@ TEST_F(MapTest, StartFinish) {
 
 TEST_F(MapTest, Weight) {
     stringstream stream;
-    uint32_t ten = 10;
-    stream.write((const char*)&ten, sizeof(uint32_t));
-    stream.write((const char*)&ten, sizeof(uint32_t));
+    index_t ten = 10;
+    stream.write((const char*)&ten, sizeof(index_t));
+    stream.write((const char*)&ten, sizeof(index_t));
     stream.write(kTestField, sizeof(kTestField) - 1);
 
     ASSERT_EQ(m_map.readFromStream(stream), 100);
@@ -86,6 +86,6 @@ TEST_F(MapTest, Weight) {
     ASSERT_EQ(m_map.weight(m_map.start()), 1);
     ASSERT_EQ(m_map.weight(m_map.finish()), 1);
 
-    int32_t cellWithWall = m_map.finish() - 1;
+    index_t cellWithWall = m_map.finish() - 1;
     EXPECT_GT(m_map.weight(cellWithWall), 50000);
 }

@@ -11,7 +11,10 @@
 using namespace boost;
 using namespace std;
 
-typedef int32_t cost;
+namespace map_solver {
+
+namespace internal {
+typedef weight_t cost;
 
 template <class Graph, class CostType, class LocMap>
 class distance_heuristic : public astar_heuristic<Graph, CostType>
@@ -22,8 +25,12 @@ public:
         : m_location(l), m_goal(goal) {}
     CostType operator()(Vertex u)
     {
-        CostType dx = m_location[m_goal].x() - m_location[u].x();
-        CostType dy = m_location[m_goal].y() - m_location[u].y();
+        index_t ux, uy, goalx, goaly;
+        tie(ux, uy) = m_location.indexToCartesian(u);
+        tie(goalx, goaly) = m_location.indexToCartesian(m_goal);
+
+        CostType dx = goalx - ux;
+        CostType dy = goaly - uy;
         return dx + dy;
     }
 private:
@@ -49,9 +56,9 @@ public:
 private:
     Vertex m_goal;
 };
+}
 
-
-namespace map_solver {
+using namespace internal;
 
 AStarPathFinder::AStarPathFinder(std::shared_ptr<Map> mmap)
     : IPathFinder(mmap) {
@@ -68,7 +75,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
     // typedef mygraph_t::vertex_iterator vertex_iterator;
     // typedef std::pair<int, int> edge;
 
-    int32_t start_idx, finish_idx;
+    index_t start_idx, finish_idx;
     start_idx = m_map->start();
     finish_idx = m_map->finish();
 
@@ -89,7 +96,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
         auto cell_weight = m_map->weight(current_cell);
         LOG_TRACE << "node " << current_cell << " weight: " << cell_weight;
 
-        AdjacentCells<int32_t> adjacent_indexes(m_map->width(), m_map->height(), i);
+        AdjacentCells<index_t> adjacent_indexes(m_map->width(), m_map->height(), i);
 
         for_each(adjacent_indexes.begin(), adjacent_indexes.end(), [&](int adjacent_index) {
                 edge_descriptor e; bool inserted;
