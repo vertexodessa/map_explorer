@@ -76,27 +76,27 @@ unique_ptr<Path> AStarPathFinder::solve() {
     // typedef std::pair<int, int> edge;
 
     index_t start_idx, finish_idx;
-    start_idx = m_map->start();
-    finish_idx = m_map->finish();
+    start_idx = map()->start();
+    finish_idx = map()->finish();
 
-    if (kNonExistentIndex == start_idx || kNonExistentIndex == finish_idx) {
+    if (kInvalidWeight == start_idx || kInvalidWeight == finish_idx) {
         LOG_FATAL << "The map is not correct. Cannot find a start or finish cell.";
         return nullptr;
     }
 
     // graph: directed, vector for storing vecs and edges
     // create graph
-    const int num_nodes = m_map->width() * m_map->height();
+    const int num_nodes = map()->width() * map()->height();
     mygraph_t g(num_nodes);
     // fill edges' weights
     WeightMap weightmap = get(edge_weight, g);
     LOG_TRACE << "num_nodes: " << num_nodes;
     for (int i=0; i < num_nodes; ++i) {
         auto& current_cell = i;
-        auto cell_weight = m_map->weight(current_cell);
+        auto cell_weight = map()->weight(current_cell);
         LOG_TRACE << "node " << current_cell << " weight: " << cell_weight;
 
-        AdjacentCells<index_t> adjacent_indexes(m_map->width(), m_map->height(), i);
+        AdjacentCells<index_t> adjacent_indexes(map()->width(), map()->height(), i);
 
         for_each(adjacent_indexes.begin(), adjacent_indexes.end(), [&](int adjacent_index) {
                 edge_descriptor e; bool inserted;
@@ -119,7 +119,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
         astar_search
             (g, start,
              distance_heuristic<mygraph_t, cost, Map>
-             (*m_map, finish),
+             (*map(), finish),
              predecessor_map(&p[0]).distance_map(&d[0]).
              visitor(throwing_astar_visitor<vertex>(finish)));
 
@@ -140,7 +140,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
         if (d[finish] >= kWallWeight)
             throw DestinationUnreachableException("The destination can't be reached without jumping over the walls.");
 
-        auto ret = make_unique<Path>(m_map->width(), m_map->height());
+        auto ret = make_unique<Path>(map()->width(), map()->height());
         ret->setWeight(d[finish]);
 
         for (auto&& i : shortest_path)

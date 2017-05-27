@@ -12,7 +12,7 @@ void Path::checkInBounds(index_t idx) const {
         throw OutOfBoundsException("index is larger than the current cell size");
     if (idx/m_width > m_height)
         throw OutOfBoundsException("y is larger than the current height");
-    if (m_width == kNonExistentIndex || m_height == kNonExistentIndex)
+    if (m_width == kInvalidWeight || m_height == kInvalidWeight)
         throw OutOfBoundsException("m_width or m_height == -1");
 }
 
@@ -35,7 +35,7 @@ void Path::markCell(index_t idx) {
 
 index_t Path::cartesianToIndex(index_t x, index_t y) const {
     // TODO: make a test
-    if (m_width == kNonExistentIndex)
+    if (m_width == kInvalidWeight)
         throw OutOfBoundsException("m_w is incorrect");
     return x + y * m_width;
 }
@@ -50,7 +50,7 @@ CartesianPoint Path::indexToCartesian(index_t i) const {
 
 }
 
-weight_t Path::calculateFromDistances(std::vector<index_t> dist,
+weight_t Path::calculateFromDistances(const std::vector<index_t> dist,
                                   index_t start_idx,
                                   index_t end_idx) {
     checkInBounds(start_idx);

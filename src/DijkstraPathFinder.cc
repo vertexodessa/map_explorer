@@ -21,17 +21,17 @@ DijkstraPathFinder::DijkstraPathFinder(shared_ptr<Map> map)
 
 unique_ptr<Path> DijkstraPathFinder::solve() {
 
-    index_t start_idx = m_map->start();
-    index_t finish_idx = m_map->finish();
+    index_t start_idx = map()->start();
+    index_t finish_idx = map()->finish();
 
-    if (kNonExistentIndex == start_idx || kNonExistentIndex == finish_idx) {
+    if (kInvalidWeight == start_idx || kInvalidWeight == finish_idx) {
         LOG_FATAL << "The map is not correct. Cannot find a start or finish cell.";
         return nullptr;
     }
 
     // In the set, the first of the pair is the distance; the second is the position on the map.
     set< pair<weight_t, index_t> > setds;
-    index_t cell_count = m_map->width() * m_map->height();
+    index_t cell_count = map()->width() * map()->height();
 
     const weight_t kINF = kWallWeight;
     vector<index_t> dist(cell_count, kINF);
@@ -46,13 +46,13 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
 
         int currentCell = tmp.second;
 
-        AdjacentCells<index_t> adj(m_map->width(), m_map->height(), currentCell);
+        AdjacentCells<index_t> adj(map()->width(), map()->height(), currentCell);
 
         AdjacentCells<index_t>::iterator currentAdjacent;
         for (currentAdjacent = adj.begin(); currentAdjacent != adj.end(); ++currentAdjacent)
         {
             LOG_TRACE << "Got adjacent cell: " << *currentAdjacent;
-            index_t weight = m_map->weight(*currentAdjacent);
+            index_t weight = map()->weight(*currentAdjacent);
 
             LOG_TRACE << "Distance of current adjacent cell to the start: " << dist[*currentAdjacent];
             LOG_TRACE << "Weight of current adjacent cell: " << weight;
@@ -78,7 +78,7 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
         }
     }
 
-    unique_ptr<Path> ret {new Path(m_map->width(), m_map->height())};
+    unique_ptr<Path> ret {new Path(map()->width(), map()->height())};
 
     for (index_t i=0; i < dist.size(); ++i) {
         LOG_TRACE << "element #" << i <<": " << dist[i];

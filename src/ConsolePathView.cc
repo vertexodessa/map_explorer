@@ -7,14 +7,14 @@
 namespace map_solver {
 
 void ConsolePathView::draw() const {
-    if(!m_path)
+    if(!path())
         return;
 
     int initX, initY;
     getyx(stdscr, initY, initX);
     int w, h, x, y;
-    h = m_path->fieldWidth()+2;
-    w = m_path->fieldHeight()+2;
+    h = path()->fieldWidth()+2;
+    w = path()->fieldHeight()+2;
     y = initY;
     x = initX;
 
@@ -31,7 +31,7 @@ void ConsolePathView::draw() const {
     for (int y=0; y < height; ++y) {
         wmove(map_win, y, 0);
         for (int x=0; x < width; ++x) {
-            bool needsDisplay = m_path->cell(x,y);
+            bool needsDisplay = path()->cell(x,y);
             if(!needsDisplay)
                 continue;
 

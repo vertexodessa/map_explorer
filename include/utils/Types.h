@@ -7,18 +7,18 @@
 
 namespace map_solver {
 using index_t  = uint32_t;
-using weight_t =  uint32_t;
+using weight_t = uint32_t;
 using Rect = std::pair<index_t, index_t>;
 using CartesianPoint = std::pair<index_t, index_t>;
 
-struct OutOfBoundsException : public std::runtime_error {
+class OutOfBoundsException : public std::runtime_error {
+public:
     OutOfBoundsException(const std::string& s) : std::runtime_error(s) {};
-    virtual ~OutOfBoundsException() {}
 };
 
-struct DestinationUnreachableException : public std::runtime_error {
+class DestinationUnreachableException : public std::runtime_error {
+public:
     DestinationUnreachableException(const std::string& s) : std::runtime_error(s) {};
-    virtual ~DestinationUnreachableException() {}
 };
 
 }

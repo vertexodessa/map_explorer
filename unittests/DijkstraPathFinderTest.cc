@@ -38,7 +38,7 @@ TEST_F(DijkstraPFTest, SolvedMapWeight) {
     ss.write(kTestField, sizeof(kTestField) - 1);
 
     shared_ptr<Map> map = make_shared<Map>();
-    ASSERT_NE(kNonExistentIndex, map->readFromStream(ss));
+    ASSERT_NE(kInvalidIndex, map->readFromStream(ss));
 
     PathFinderFactory f;
     f.setType(PathFinderFactory::Dijkstra);
@@ -69,7 +69,7 @@ TEST_F(DijkstraPFTest, UnreachableDestination) {
     ss.write(kLocalTestField, sizeof(kLocalTestField) - 1);
 
     shared_ptr<Map> map = make_shared<Map>();
-    ASSERT_NE(kNonExistentIndex, map->readFromStream(ss));
+    ASSERT_NE(kInvalidIndex, map->readFromStream(ss));
 
     PathFinderFactory f;
     f.setType(PathFinderFactory::Dijkstra);
@@ -98,7 +98,7 @@ TEST_F(DijkstraPFTest, DoubleWallsAreStillUnreachable) {
     ss.write(kLocalTestField, sizeof(kLocalTestField) - 1);
 
     shared_ptr<Map> map = make_shared<Map>();
-    ASSERT_NE(kNonExistentIndex, map->readFromStream(ss));
+    ASSERT_NE(kInvalidIndex, map->readFromStream(ss));
 
     PathFinderFactory f;
     f.setType(PathFinderFactory::Dijkstra);

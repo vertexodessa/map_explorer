@@ -1,6 +1,5 @@
 // ConsoleMapVieConfiguration
 
-
 #include "ConsoleMapView.h"
 #include "Logging.h"
 #include "Map.h"
@@ -17,6 +16,7 @@ namespace {
 
 wchar_t CellRepresentation(char cellType) {
     // currently just a cell type is returned.
+    // Possible to display a cell using different unicode charasters later.
     return cellType;
 };
 
@@ -31,8 +31,8 @@ void ConsoleMapView::draw() const {
         "x: " << initX;
 
     int w, h, x, y;
-    h = m_map->height()+2;
-    w = m_map->width()+2;
+    h = map()->height()+2;
+    w = map()->width()+2;
     y = initY;
     x = initX;
 
@@ -48,11 +48,11 @@ void ConsoleMapView::draw() const {
     box(map_win, 0, 0);
     refresh();
 
-    for (index_t y=0; y < m_map->height(); ++y) {
+    for (index_t y=0; y < map()->height(); ++y) {
         wmove(map_win, y, 0);
-        for (index_t x=0; x < m_map->width(); ++x) {
-            index_t cellPos = x + (y * m_map->width());
-            char cellType = m_map->m_cells[cellPos].getType();
+        for (index_t x=0; x < map()->width(); ++x) {
+            index_t cellPos = x + (y * map()->width());
+            char cellType = map()->m_cells[cellPos].getType();
             wchar_t cell_representation = CellRepresentation(cellType);
 
             LOG_TRACE << "Outputting character at x: " << x << ", y: " << y;

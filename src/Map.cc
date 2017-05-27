@@ -83,7 +83,7 @@ void Map::checkInBounds(index_t idx) const {
         throw OutOfBoundsException("index is larger than the current cell size");
     if (idx/m_width > m_height)
         throw OutOfBoundsException("y is larger than the current height");
-    if (m_width == kNonExistentIndex)
+    if (m_width == kInvalidWeight)
         throw OutOfBoundsException("m_width == -1");
 }
 
@@ -173,7 +173,7 @@ index_t Map::readFromStream(istream& stream) {
     return m_cells.size();
 }
 
-index_t Map::readFromFile(string filename) {
+index_t Map::readFromFile(const string& filename) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
 
     path p(filename);

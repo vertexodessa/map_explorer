@@ -14,8 +14,9 @@ public:
 protected:
     friend class ConsolePathViewFactory;
     explicit IPathView(std::shared_ptr<Path> path): m_path (path) {};
-    std::shared_ptr<Path> m_path;
+    std::shared_ptr<const Path> path() const {return m_path;};
 private:
+    std::shared_ptr<Path> m_path;
 };
 
 }

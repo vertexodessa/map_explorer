@@ -18,7 +18,7 @@ class Map {
 public:
     Map();
     ~Map(){}
-    index_t readFromFile(std::string filename);
+    index_t readFromFile(const std::string& filename);
     index_t readFromStream(std::istream& s);
 
     index_t width() const {return m_width;};
@@ -38,8 +38,8 @@ private:
 
     void checkInBounds(index_t idx) const;
     std::vector<Cell> m_cells;
-    index_t m_width {kNonExistentIndex};
-    index_t m_height {kNonExistentIndex};
+    index_t m_width {kInvalidIndex};
+    index_t m_height {kInvalidIndex};
 };
 
 }
