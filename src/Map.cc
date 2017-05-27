@@ -38,7 +38,7 @@ inline Rect GetMapSize(istream& f) {
     return Rect(x,y);
 }
 
-inline vector<Cell> ReadCellsFromFile(istream& f) {
+inline vector<Cell> ReadCellsFromStream(istream& f) {
     LOG_TRACE << __PRETTY_FUNCTION__ << " entered";
     vector<Cell> ret;
 
@@ -160,7 +160,7 @@ index_t Map::readFromStream(istream& stream) {
     }
 
     // read cells
-    m_cells = ReadCellsFromFile(stream);
+    m_cells = ReadCellsFromStream(stream);
 
     if (m_cells.size() != (width * height)) {
         LOG_ERROR << "Read " << m_cells.size() << " cells, expected " << width * height << " cells";

@@ -30,10 +30,10 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
     }
 
     // In the set, the first of the pair is the distance; the second is the position on the map.
-    set< pair<index_t, index_t> > setds;
+    set< pair<weight_t, index_t> > setds;
     index_t cell_count = m_map->width() * m_map->height();
 
-    const index_t kINF = 100000000;
+    const weight_t kINF = kWallWeight;
     vector<index_t> dist(cell_count, kINF);
 
     setds.insert(make_pair(0, start_idx));
@@ -65,7 +65,8 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
                     // we only get here if there is another way to get to this cell.
                     if (setds.find(make_pair(dist[currentAdjacent], currentAdjacent)) == setds.end()) {
                         LOG_FATAL << "Can't find cell #" << currentAdjacent << " with dist to start " << dist[currentAdjacent];
-                        exit(1);
+                        throw(OutOfBoundsException("Can't find a pair that represents the currently calculated distance to a current cell."
+                                                   " That looks like an algorithm error."));
                     }
 
                     setds.erase(setds.find(make_pair(dist[currentAdjacent], currentAdjacent)));
