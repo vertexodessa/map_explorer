@@ -29,10 +29,10 @@ include_directories(
   )
 
 add_executable(${GTEST_BINARY_NAME}
-  test_main.cc
-  test_map.cc
-  test_iterator.cc
-  test_dijkstra_path_finder.cc
+  Main.cc
+  MapTest.cc
+  AdjacentCellIteratorTest.cc
+  DijkstraPathFinderTest.cc
   )
 
 target_link_libraries(${GTEST_BINARY_NAME}
