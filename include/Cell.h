@@ -12,7 +12,7 @@ class Cell {
 public:
     Cell() : m_type(-1), m_idx(-1) {};
     Cell(char type, index_t idx) : m_type(type), m_idx(idx) {
-        LOG_TRACE << "Creating cell of type " << m_type << " at index " << idx;
+        LOG_TRACE << "Creating cell of type " << (int) m_type << " at index " << idx;
     }
 
     char getType() const {return m_type;};

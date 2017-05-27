@@ -62,6 +62,12 @@ weight_t Path::calculateFromDistances(std::vector<index_t> dist,
 
     weight_t total_weight = 0;
 
+    LOG_TRACE << "Total distance: " << dist[end_idx];
+
+    total_weight = dist[end_idx];
+    if (total_weight >= kWallWeight)
+        throw DestinationUnreachableException("can't reach from start to end");
+
     while (true) {
         if (current_idx == start_idx)
             break;
@@ -73,11 +79,7 @@ weight_t Path::calculateFromDistances(std::vector<index_t> dist,
 
         index_t min_idx = *min;
         m_cells[min_idx] = 1;
-        total_weight += dist[min_idx];
         current_idx = min_idx;
-
-        if (total_weight > kWallWeight)
-            throw DestinationUnreachableException("can't reach from start to end");
     }
 
     for (index_t i = 0; i < m_width; ++ i)

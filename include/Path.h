@@ -2,6 +2,7 @@
 #define PATH_H
 
 #include "Cell.h"
+#include "utils/Constants.h"
 #include "utils/Types.h"
 
 #include <boost/numeric/ublas/matrix.hpp>
@@ -27,11 +28,15 @@ public:
 
     index_t cartesianToIndex(index_t x, index_t y) const;
     CartesianPoint indexToCartesian(index_t i) const;
+    void setWeight(weight_t w) { m_weight = w; };
+    weight_t weight() {return m_weight;}
 private:
     void checkInBounds(index_t idx) const;
 
     std::vector<index_t> m_cells;
-    index_t m_width, m_height;
+    index_t m_width {kNonExistentIndex};
+    index_t m_height {kNonExistentIndex};
+    weight_t m_weight {kNonExistentWeight};
 };
 
 }

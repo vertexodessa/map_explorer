@@ -8,7 +8,6 @@ template <typename T>
 class IteratorTest : public ::testing::Test {
 protected:
     virtual void SetUp() override {
-        Logging::initLogging();
         std::srand(std::time(0));
     }
     virtual void TearDown() override {  }

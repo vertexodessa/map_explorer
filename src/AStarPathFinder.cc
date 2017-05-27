@@ -137,7 +137,12 @@ unique_ptr<Path> AStarPathFinder::solve() {
             LOG_TRACE  << *std::prev(spi) << " -> " << *spi;
         LOG_TRACE << '\n' << "Total travel time: " << d[finish] << '\n';
 
+        if (d[finish] >= kWallWeight)
+            throw DestinationUnreachableException("The destination can't be reached without jumping over the walls.");
+
         auto ret = make_unique<Path>(m_map->width(), m_map->height());
+        ret->setWeight(d[finish]);
+
         for (auto&& i : shortest_path)
             ret->markCell(i);
         return ret;
@@ -145,6 +150,8 @@ unique_ptr<Path> AStarPathFinder::solve() {
 
     LOG_WARN << "Didn't find a path from " << start << " to "
              << finish << "!" << '\n';
+
+    throw DestinationUnreachableException("Start and finish points are not connected.");
 
     return nullptr;
 }

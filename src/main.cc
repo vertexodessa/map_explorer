@@ -41,7 +41,9 @@ int main(int, char*[])
     Renderer p;
     p.setMapView(viewPtr);
 
-    unique_ptr<IPathFinder> pf = PathFinderFactory::create(map);
+    PathFinderFactory f;
+    f.setType(PathFinderFactory::AStar);
+    unique_ptr<IPathFinder> pf = f.create(map);
     shared_ptr<Path> path { pf->solve() };
     shared_ptr<IPathView> pathView = PathViewFactory::create(path);
 

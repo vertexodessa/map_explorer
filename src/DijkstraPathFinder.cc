@@ -48,33 +48,32 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
 
         AdjacentCells<index_t> adj(m_map->width(), m_map->height(), currentCell);
 
-        AdjacentCells<index_t>::iterator i;
-        for (i = adj.begin(); i != adj.end(); ++i)
+        AdjacentCells<index_t>::iterator currentAdjacent;
+        for (currentAdjacent = adj.begin(); currentAdjacent != adj.end(); ++currentAdjacent)
         {
-            LOG_TRACE << "Got adjacent cell: " << *i;
-            index_t currentAdjacent = *i;
-            index_t weight = m_map->weight(*i);
+            LOG_TRACE << "Got adjacent cell: " << *currentAdjacent;
+            index_t weight = m_map->weight(*currentAdjacent);
 
-            LOG_TRACE << "Distance of current adjacent cell to the start: " << dist[currentAdjacent];
+            LOG_TRACE << "Distance of current adjacent cell to the start: " << dist[*currentAdjacent];
             LOG_TRACE << "Weight of current adjacent cell: " << weight;
             LOG_TRACE << "Distance of current cell to the start: " << dist[currentCell];
 
-            if (dist[currentAdjacent] > dist[currentCell] + weight)
+            if (dist[*currentAdjacent] > dist[currentCell] + weight)
             {
-                if (dist[currentAdjacent] != kINF) {
+                if (dist[*currentAdjacent] != kINF) {
                     // we only get here if there is another way to get to this cell.
-                    if (setds.find(make_pair(dist[currentAdjacent], currentAdjacent)) == setds.end()) {
-                        LOG_FATAL << "Can't find cell #" << currentAdjacent << " with dist to start " << dist[currentAdjacent];
+                    if (setds.find(make_pair(dist[*currentAdjacent], *currentAdjacent)) == setds.end()) {
+                        LOG_FATAL << "Can't find cell #" << *currentAdjacent << " with dist to start " << dist[*currentAdjacent];
                         throw(OutOfBoundsException("Can't find a pair that represents the currently calculated distance to a current cell."
                                                    " That looks like an algorithm error."));
                     }
 
-                    setds.erase(setds.find(make_pair(dist[currentAdjacent], currentAdjacent)));
+                    setds.erase(setds.find(make_pair(dist[*currentAdjacent], *currentAdjacent)));
                 }
 
                 // Updating distance of currentAdjacent
-                dist[currentAdjacent] = dist[currentCell] + weight;
-                setds.insert(make_pair(dist[currentAdjacent], currentAdjacent));
+                dist[*currentAdjacent] = dist[currentCell] + weight;
+                setds.insert(make_pair(dist[*currentAdjacent], *currentAdjacent));
             }
         }
     }
@@ -85,7 +84,8 @@ unique_ptr<Path> DijkstraPathFinder::solve() {
         LOG_TRACE << "element #" << i <<": " << dist[i];
     }
 
-    m_weight = ret->calculateFromDistances(dist, start_idx, finish_idx);
+    weight_t weight = ret->calculateFromDistances(dist, start_idx, finish_idx);
+    ret->setWeight(weight);
 
     return ret;
 }
