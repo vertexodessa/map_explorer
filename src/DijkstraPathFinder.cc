@@ -20,6 +20,7 @@ DijkstraPathFinder::DijkstraPathFinder(shared_ptr<Map> map)
 }
 
 unique_ptr<Path> DijkstraPathFinder::solve() {
+    // TODO: use union/find to check the path for solvability earlier
 
     index_t start_idx = map()->start();
     index_t finish_idx = map()->finish();

@@ -66,6 +66,8 @@ AStarPathFinder::AStarPathFinder(std::shared_ptr<Map> mmap)
 }
 
 unique_ptr<Path> AStarPathFinder::solve() {
+    // TODO: use union/find to check the path for solvability earlier
+
     // specify some types
     typedef adjacency_list<vecS, vecS, directedS, no_property,
                            property<edge_weight_t, cost> > mygraph_t;
