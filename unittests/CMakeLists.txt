@@ -32,7 +32,7 @@ add_executable(${GTEST_BINARY_NAME}
   Main.cc
   MapTest.cc
   AdjacentCellIteratorTest.cc
-  DijkstraPathFinderTest.cc
+  PathFinderTest.cc
   )
 
 target_link_libraries(${GTEST_BINARY_NAME}
