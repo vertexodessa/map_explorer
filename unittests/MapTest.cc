@@ -27,8 +27,8 @@ const char kTestField[] =
 
 class MapTest : public ::testing::Test {
 protected:
-    virtual void SetUp() override { }
-    virtual void TearDown() override { }
+    void SetUp() override { }
+    void TearDown() override { }
     Map m_map;
 };
 

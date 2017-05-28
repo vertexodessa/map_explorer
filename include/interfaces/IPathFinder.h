@@ -12,10 +12,10 @@ class Map;
 
 class IPathFinder {
 public:
-    virtual ~IPathFinder(){};
+    virtual ~IPathFinder() = default;
     virtual std::unique_ptr<Path> solve() =0;
 protected:
-    explicit IPathFinder(std::shared_ptr<Map> map) : m_map(map) {};
+    explicit IPathFinder(std::shared_ptr<Map> map) : m_map(std::move(map)) { }
     std::shared_ptr<const Map> map() const {return m_map;}
 private:
     std::shared_ptr<Map> m_map;

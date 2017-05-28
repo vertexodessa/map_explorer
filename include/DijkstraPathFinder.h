@@ -14,8 +14,8 @@ class Map;
 class DijkstraPathFinder : public IPathFinder {
 public:
     // IPathFinder
-    virtual ~DijkstraPathFinder() final {};
-    virtual std::unique_ptr<Path> solve() final;
+    ~DijkstraPathFinder() final = default;
+    std::unique_ptr<Path> solve() final;
 protected:
     explicit DijkstraPathFinder(std::shared_ptr<Map> map);
     friend class PathFinderFactory;

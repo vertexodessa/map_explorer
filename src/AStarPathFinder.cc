@@ -131,7 +131,7 @@ unique_ptr<Path> AStarPathFinder::solve() {
         }
         LOG_TRACE << "Shortest path from " << start << " to "
              << finish << ": ";
-        list<vertex>::iterator spi = shortest_path.begin();
+        auto spi = shortest_path.begin();
         LOG_TRACE << start;
         for(++spi; spi != shortest_path.end(); ++spi)
             LOG_TRACE  << *std::prev(spi) << " -> " << *spi;

@@ -17,7 +17,7 @@ namespace map_solver {
 class Map {
 public:
     Map();
-    ~Map(){}
+    ~Map() = default;
     index_t readFromFile(const std::string& filename);
     index_t readFromStream(std::istream& s);
 

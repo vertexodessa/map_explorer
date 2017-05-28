@@ -7,10 +7,10 @@
 template <typename T>
 class IteratorTest : public ::testing::Test {
 protected:
-    virtual void SetUp() override {
-        std::srand(std::time(0));
+    void SetUp() override {
+        std::srand(std::time(nullptr));
     }
-    virtual void TearDown() override {  }
+    void TearDown() override {  }
 };
 
 typedef ::testing::Types<char, int, unsigned int> MyTypes;

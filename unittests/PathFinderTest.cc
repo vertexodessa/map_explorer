@@ -26,8 +26,8 @@ const char kTestField[] =
 
 class PFTest : public ::testing::TestWithParam<PathFinderFactory::PathFinderType> {
 protected:
-    virtual void SetUp() override { }
-    virtual void TearDown() override { }
+    void SetUp() override { }
+    void TearDown() override { }
 };
 
 INSTANTIATE_TEST_CASE_P(PathFinderType,

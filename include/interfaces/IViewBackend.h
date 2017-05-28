@@ -7,7 +7,7 @@ class IViewBackend {
 public:
     virtual void initialize() = 0;
     virtual void deInitialize() = 0;
-    virtual ~IViewBackend() {}
+    virtual ~IViewBackend() = default;
 };
 
 }

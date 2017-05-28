@@ -8,9 +8,9 @@ namespace map_solver {
 
 class ConsoleMapView : public IMapView {
 public:
-    virtual ~ConsoleMapView() final {};
+    ~ConsoleMapView() final = default;
     //IMapView
-    virtual void draw() const final;
+    void draw() const final;
 
 protected:
     explicit ConsoleMapView(std::shared_ptr<Map> map) : IMapView(map) { };

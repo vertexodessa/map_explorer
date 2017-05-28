@@ -11,9 +11,9 @@ namespace map_solver {
 class ConsoleViewBackend : public IViewBackend {
 public:
     // IViewBackend
-    virtual ~ConsoleViewBackend() final {};
-    virtual void initialize() final;
-    virtual void deInitialize() final;
+    ~ConsoleViewBackend() final = default;
+    void initialize() final;
+    void deInitialize() final;
 };
 
 

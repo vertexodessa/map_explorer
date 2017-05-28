@@ -9,11 +9,11 @@ class Path;
 
 class IPathView {
 public:
-    virtual ~IPathView() {}
+    virtual ~IPathView() = default;
     virtual void draw() const =0;
 protected:
     friend class ConsolePathViewFactory;
-    explicit IPathView(std::shared_ptr<Path> path): m_path (path) {};
+    explicit IPathView(std::shared_ptr<Path> path): m_path (std::move(path)) {};
     std::shared_ptr<const Path> path() const {return m_path;};
 private:
     std::shared_ptr<Path> m_path;
